@@ -12,27 +12,26 @@ import java.util.List;
 public class UserServImpl implements IUserService{
 
     UserRepo userRepo;
-    @Override
+
+    public User addUserAndAssignPortfolio(User user) {
+        return userRepo.save(user);
+    }
     public List<User> retrieveAllUsers() {
         return userRepo.findAll();
     }
 
-    @Override
     public User retrieveUser(Long userId) {
         return userRepo.findById(userId).get();
     }
-
-    @Override
+/*
     public User addUser(User usr) {
         return userRepo.save(usr);
     }
-
-    @Override
+ */
     public void removeUser(Long userId) {
         userRepo.deleteById(userId);
     }
 
-    @Override
     public User modifyUser(User user) {
         return userRepo.save(user);
     }

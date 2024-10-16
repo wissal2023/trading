@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.List;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -13,16 +13,22 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class User {
+public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    String username;
-    String email;
-    String password;
-    Double rank;
+    String symbol;
+    Double price;
+    Double quantity;
+    Date date;
+    Double totalAmount; // (price * quantity)
+    String descp;//describes the nature of the transaction
+    Double commiss;
+    Double dividende;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     Portfolio portfolio;
+    @ManyToOne
+    PlacingOrder placingOrder;
 }
 

@@ -12,6 +12,7 @@ import java.util.List;
 @Tag(name = "User class")
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 @RequestMapping("/user")
 public class UserController {
 
@@ -28,12 +29,18 @@ public class UserController {
         User user = userServ.retrieveUser(userId);
         return user;
     }
-
+    @PostMapping("/add-user-and-assign-portfolio")
+    public User addUserAndAssignPortfolio(@RequestBody User user) {
+       return userServ.addUserAndAssignPortfolio(user);
+    }
+    /*
     @PostMapping("/Add-User")
     public User addUser(@RequestBody User u) {
         User user = userServ.addUser(u);
         return user;
     }
+
+ */
     @PutMapping("/modify-user")
     public User modifyUser(@RequestBody User usr) {
         User user = userServ.modifyUser(usr);

@@ -15,27 +15,23 @@ import java.util.List;
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Portfolio {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     Double totVal;
     Date dateCreated;
-    Float accVal;
-    Float buyPow;
-    Float cash;
+    Double accVal =99000.000;
+    Double buyPow;
+    Double cash;
+    Double tdyChange;  // Gains/losses as a result of today's market activity
+    Double annReturn;  // Percentage return extrapolated for a year
+    Double totGainLoss; // Total gain/loss percentage
 
-
-
-
-    @ManyToOne
+    @OneToOne(mappedBy = "portfolio")
     User user;
-
-    @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL)
-    List<Trade> assets;
-
-
-
-
+    @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    List<Transaction> transactions;
+    @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    List<Holding> holdings;
 }
 

@@ -13,36 +13,18 @@ import java.util.Date;
 @NoArgsConstructor
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Trade {
-
+public class Holding {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String symbol;
-    Double price;
-    Double quantity;
-    String descp;
-    Float px;
-    Double qte;
-    Date date;
-    String param;
-    Double duration;
-    String status;
-    Double commiss;
-    Double dividende;
-    String note;
-
-    @Enumerated(EnumType.STRING)
-    orderType orderType;
-    @Enumerated(EnumType.STRING)
-    tradeType tradeType;
+    String name;
+    Double qty;  // Number of shares/units owned
+    Float avgPrice;   // Average purchase price per share/unit
+    Float curntPrice;  // Current market price per share/unit
+    Float mktVal;   //  currentPrice * qty
+    Date acquisitionDate;// acquired date
 
     @ManyToOne
     Portfolio portfolio;
-
-
-
-
-
 }
-

@@ -1,5 +1,7 @@
 package tn.esprit.similator.entity;
 
 public enum orderType {
-    BUY, SELL, SHORT, COVER, CALL, PUT
+    Market, Limit, Stop_Limit, Trailing_Stop
+
 }
+

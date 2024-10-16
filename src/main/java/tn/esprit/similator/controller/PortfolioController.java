@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/portfolio")
+@CrossOrigin(origins = "*")
 public class PortfolioController {
 
     IPortfolioService portfolioServ;

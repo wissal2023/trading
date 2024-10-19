@@ -1,11 +1,19 @@
 package tn.esprit.similator.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import javax.sound.sampled.Port;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -14,14 +22,14 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PlacingOrder {
+public class PlacingOrder  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String symbol;
     Double qty;
     Double Price;
-    Date date;
+    LocalDateTime date;
     String note;
     String param; //$ ou %
     Double duration;// daily or untill cancelled
@@ -32,9 +40,13 @@ public class PlacingOrder {
     @Enumerated(EnumType.STRING)
     transacType transacType; // BUY, SELL, SHORT, COVER , call, put
     @Enumerated(EnumType.STRING)
-    Status status;// OPEN, FILLED, CANCELLED
+    status status;// OPEN, FILLED, CANCELLED
 
-    @OneToMany(mappedBy = "placingOrder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    List<Transaction> transactions;
+    @ManyToOne
+    @JsonIgnore
+    Portfolio portfolio;
+
+    @OneToMany(mappedBy="placingOrder")
+    List<Transaction> transactions= new ArrayList<>();
 
 }

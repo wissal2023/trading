@@ -3,6 +3,7 @@ package tn.esprit.similator.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.similator.entity.User;
 import tn.esprit.similator.service.IUserService;
@@ -29,18 +30,12 @@ public class UserController {
         User user = userServ.retrieveUser(userId);
         return user;
     }
-    @PostMapping("/add-user-and-assign-portfolio")
-    public User addUserAndAssignPortfolio(@RequestBody User user) {
-       return userServ.addUserAndAssignPortfolio(user);
-    }
-    /*
-    @PostMapping("/Add-User")
-    public User addUser(@RequestBody User u) {
-        User user = userServ.addUser(u);
-        return user;
+    @PostMapping("/addAndAssignPortfolio")
+    public ResponseEntity<User> addUserAndAssignPortfolio(@RequestBody User user) {
+        User createdUser = userServ.addUserAndAssignPortfolio(user);
+        return ResponseEntity.ok(createdUser);
     }
 
- */
     @PutMapping("/modify-user")
     public User modifyUser(@RequestBody User usr) {
         User user = userServ.modifyUser(usr);

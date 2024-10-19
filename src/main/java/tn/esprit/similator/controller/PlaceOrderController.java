@@ -2,6 +2,7 @@ package tn.esprit.similator.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.similator.entity.PlacingOrder;
 import tn.esprit.similator.service.IPlacingOrderService;
@@ -29,11 +30,13 @@ public class PlaceOrderController {
         return placingOrder;
     }
 
-    @PostMapping("/Add-PlacingOrder")
-    public PlacingOrder addPlacingOrder(@RequestBody PlacingOrder u) {
-        PlacingOrder placingOrder = placingOrderServ.addPlacingOrder(u);
-        return placingOrder;
+    @PostMapping("/{portfolioId}/add-order")
+    public ResponseEntity<PlacingOrder> addPlacingOrder(@PathVariable Long portfolioId,
+                                                        @RequestBody PlacingOrder placingOrder) {
+        PlacingOrder addOrder = placingOrderServ.addPlacingOrder(portfolioId, placingOrder);
+        return ResponseEntity.ok(addOrder);
     }
+
     @PutMapping("/modify-placingOrder")
     public PlacingOrder modifyPlacingOrder(@RequestBody PlacingOrder usr) {
         PlacingOrder placingOrder = placingOrderServ.modifyPlacingOrder(usr);

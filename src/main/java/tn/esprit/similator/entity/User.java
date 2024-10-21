@@ -16,13 +16,24 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String username;
-    String email;
-    String password;
-    Double rank;
+     Long id;
+
+    @Column(nullable = false, unique = true)
+     String username;
+
+    @Column(nullable = false, unique = true)
+     String email;
+
+    @Column(nullable = false)
+     String password;
+
+     Double rank;
+
+    @Column(nullable = false)
+     boolean isEnabled = false;
 
     @OneToOne(cascade = CascadeType.ALL)
-    Portfolio portfolio;
-}
+     Portfolio portfolio;
 
+
+}

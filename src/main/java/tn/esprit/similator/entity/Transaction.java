@@ -1,9 +1,11 @@
 package tn.esprit.similator.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -13,12 +15,12 @@ import java.util.Date;
 @NoArgsConstructor
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Transaction {
+public class Transaction implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String symbol;
-    Double price;
+    Float price;
     Double quantity;
     Date date;
     Double totalAmount; // (price * quantity)
@@ -27,8 +29,8 @@ public class Transaction {
     Double dividende;
 
     @ManyToOne
-    Portfolio portfolio;
-    @ManyToOne
+    @JsonIgnore
     PlacingOrder placingOrder;
+
 }
 

@@ -33,9 +33,10 @@ public class UserController {
         return userServ.retrieveUser(userId);
     }
 
-    @PostMapping("/add-user-and-assign-portfolio")
-    public User addUserAndAssignPortfolio(@RequestBody User user) {
-        return userServ.addUserAndAssignPortfolio(user);
+    @PostMapping("/addAndAssignPortfolio")
+    public ResponseEntity<User> addUserAndAssignPortfolio(@RequestBody User user) {
+        User createdUser = userServ.addUserAndAssignPortfolio(user);
+        return ResponseEntity.ok(createdUser);
     }
 
     @PutMapping("/modify-user")

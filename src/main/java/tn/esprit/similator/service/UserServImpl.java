@@ -3,6 +3,7 @@ package tn.esprit.similator.service;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tn.esprit.similator.entity.Portfolio;
 import tn.esprit.similator.entity.User;
 import tn.esprit.similator.repository.UserRepo;
 
@@ -16,10 +17,13 @@ public class UserServImpl implements IUserService {
     @Autowired
     private UserRepo userRepo;
 
-    @Override
+
     public User addUserAndAssignPortfolio(User user) {
+        Portfolio portfolio = new Portfolio();
+        user.setPortfolio(portfolio);
         return userRepo.save(user);
     }
+
 
     @Override
     public List<User> retrieveAllUsers() {
@@ -31,7 +35,7 @@ public class UserServImpl implements IUserService {
         return userRepo.findById(userId).orElse(null);
     }
 
-    @Override
+    
     public void removeUser(Long userId) {
         userRepo.deleteById(userId);
     }
@@ -70,3 +74,13 @@ public class UserServImpl implements IUserService {
         return user;  // Login réussi
     }
 }
+
+}
+
+
+/*
+    public User addUser(User usr) {
+        return userRepo.save(usr);
+    }
+ */
+

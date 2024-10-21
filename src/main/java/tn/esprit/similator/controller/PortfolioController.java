@@ -29,11 +29,6 @@ public class PortfolioController {
         return portfolio;
     }
 
-    @PostMapping("/Add-Portfolio")
-    public Portfolio addPortfolio(@RequestBody Portfolio p) {
-        Portfolio portfolio = portfolioServ.addPortfolio(p);
-        return portfolio;
-    }
     @PutMapping("/modify-portfolio")
     public Portfolio modifyPortfolio(@RequestBody Portfolio p) {
         Portfolio portfolio = portfolioServ.modifyPortfolio(p);

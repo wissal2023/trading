@@ -2,6 +2,7 @@ package tn.esprit.similator.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.similator.entity.Transaction;
 import tn.esprit.similator.service.ITransactionService;
@@ -29,11 +30,15 @@ public class TransactionController {
         return transaction;
     }
 
-    @PostMapping("/Add-Transaction")
-    public Transaction addTransaction(@RequestBody Transaction asst) {
-        Transaction transaction = transactionServ.addTransaction(asst);
-        return transaction;
+
+    @PostMapping("/AddTransaction/{placingOrderId}")
+    public ResponseEntity<Transaction> addTransaction(@PathVariable Long placingOrderId,
+                                                      @RequestBody Transaction transaction) {
+
+        Transaction createdTransaction = transactionServ.addTransaction(placingOrderId, transaction);
+        return ResponseEntity.ok(createdTransaction);
     }
+
     @PutMapping("/modify-transaction")
     public Transaction modifyTransaction(@RequestBody Transaction asst) {
         Transaction transaction = transactionServ.modifyTransaction(asst);

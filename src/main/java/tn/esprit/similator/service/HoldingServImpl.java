@@ -12,6 +12,7 @@ import java.util.List;
 public class HoldingServImpl implements IHoldingService{
 
     HoldingRepo holdingRepo;
+
     public List<Holding> retrieveAllHoldings() {
         return holdingRepo.findAll();
     }
@@ -31,4 +32,15 @@ public class HoldingServImpl implements IHoldingService{
     public Holding modifyHolding(Holding holding) {
         return holdingRepo.save(holding);
     }
+
+
+    // ----------------------OTHER METHOD -----------------
+
+    /*
+    public List<Holding> getHoldingsByPortfolioId(Long portfolioId) {
+        return holdingRepo.findByPortfolioId(portfolioId);
+    }
+
+     */
+
 }

@@ -1,9 +1,11 @@
 package tn.esprit.similator.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -13,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -23,6 +25,7 @@ public class User {
     Double rank;
 
     @OneToOne(cascade = CascadeType.ALL)
+            @JsonIgnore
     Portfolio portfolio;
 }
 

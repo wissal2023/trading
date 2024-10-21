@@ -3,12 +3,15 @@ package tn.esprit.similator.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.similator.entity.User;
 import tn.esprit.similator.service.IUserService;
 
 import java.util.List;
+import java.util.Map;
 
 @Tag(name = "User class")
 @RestController
@@ -17,19 +20,19 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
-    IUserService userServ;
-    
-    @GetMapping("/Get-all-users")
-    public List<User> getUsers() {
-        List<User> listUtsers = userServ.retrieveAllUsers();
-        return listUtsers;
+    @Autowired
+    private IUserService userServ;
+
+    @GetMapping("/get-all-users")
+    public List<User> getAllUsers() {
+        return userServ.retrieveAllUsers();
     }
-    
-    @GetMapping("/Get-user/{user-id}")
-    public User retrieveUser(@PathVariable("user-id") Long userId) {
-        User user = userServ.retrieveUser(userId);
-        return user;
+
+    @GetMapping("/get-user/{userId}")
+    public User getUserById(@PathVariable Long userId) {
+        return userServ.retrieveUser(userId);
     }
+
     @PostMapping("/addAndAssignPortfolio")
     public ResponseEntity<User> addUserAndAssignPortfolio(@RequestBody User user) {
         User createdUser = userServ.addUserAndAssignPortfolio(user);
@@ -37,15 +40,34 @@ public class UserController {
     }
 
     @PutMapping("/modify-user")
-    public User modifyUser(@RequestBody User usr) {
-        User user = userServ.modifyUser(usr);
-        return user;
+    public User modifyUser(@RequestBody User user) {
+        return userServ.modifyUser(user);
     }
 
-    @DeleteMapping("/remove-user/{user-id}")
-    public void removeUser(@PathVariable("user-id") Long userId) {
+    @DeleteMapping("/remove-user/{userId}")
+    public void removeUser(@PathVariable Long userId) {
         userServ.removeUser(userId);
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<String> registerUser(@RequestBody User user) {
+        try {
+            userServ.registerUser(user);
+            return ResponseEntity.ok("Registration successful. Please check your email to confirm.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 
+    @PostMapping("/login")
+    public ResponseEntity<String> loginUser(@RequestBody Map<String, String> loginData) {
+        try {
+            String email = loginData.get("email");
+            String password = loginData.get("password");
+            userServ.loginUser(email, password);
+            return ResponseEntity.ok("Login successful.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 }

@@ -7,6 +7,8 @@ import lombok.experimental.FieldDefaults;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Getter
 @Setter
@@ -35,6 +37,7 @@ public class PlacingOrder {
     Status status;// OPEN, FILLED, CANCELLED
 
     @OneToMany(mappedBy = "placingOrder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     List<Transaction> transactions;
 
 }

@@ -6,6 +6,8 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Getter
 @Setter
@@ -27,6 +29,7 @@ public class Transaction {
     Double dividende;
 
     @ManyToOne
+    @JsonIgnore
     Portfolio portfolio;
     @ManyToOne
     PlacingOrder placingOrder;

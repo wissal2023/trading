@@ -1,10 +1,7 @@
 package tn.esprit.similator.service;
 
 import lombok.AllArgsConstructor;
-import org.json.JSONException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import tn.esprit.similator.entity.Holding;
 import tn.esprit.similator.entity.Portfolio;
 import tn.esprit.similator.repository.HoldingRepo;
 import tn.esprit.similator.repository.PortfolioRepo;

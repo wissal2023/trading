@@ -1,5 +1,6 @@
 package tn.esprit.similator.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping("/placingOrder")
 @Slf4j
+@SecurityRequirement(name = "bearerAuth")
 public class PlaceOrderController {
 
     IPlacingOrderService placingOrderServ;

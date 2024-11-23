@@ -1,13 +1,10 @@
 package tn.esprit.similator.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.json.JSONException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.similator.entity.Holding;
-import tn.esprit.similator.entity.Portfolio;
-import tn.esprit.similator.repository.HoldingRepo;
 import tn.esprit.similator.service.IHoldingService;
 import tn.esprit.similator.service.PortfolioServImpl;
 
@@ -18,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 @RequestMapping("/holding")
+@SecurityRequirement(name = "bearerAuth")
 public class HoldingController {
 
     IHoldingService holdingServ;

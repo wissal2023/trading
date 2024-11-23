@@ -29,23 +29,21 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class User implements UserDetails, Principal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
     @Column(nullable = false, unique = true)
-    private String fullname;
+    String fullname;
 
     @Column(nullable = false, unique = true)
-    private String email;
+    String email;
 
     @Column(nullable = false)
-    private String password;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Role> roles;
+    String password;
 
     private Double rank;
     private boolean accountLocked;
     private boolean enabled;
+    Double commissionRate = 0.0015;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -54,10 +52,11 @@ public class User implements UserDetails, Principal {
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;
 
-     Double commissionRate = 0.0015;
+    @ManyToMany(fetch = FetchType.EAGER)
+    List<Role> roles;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Portfolio portfolio;
+    Portfolio portfolio;
 
     @Override
     public String getName() {

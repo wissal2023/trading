@@ -1,6 +1,5 @@
 package tn.esprit.similator.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +19,7 @@ import java.util.Map;
 @RequestMapping("/user")
 public class UserController {
 
+ 
     @Autowired
     private IUserService userServ;
 
@@ -42,6 +42,7 @@ public class UserController {
     @PutMapping("/modify-user")
     public User modifyUser(@RequestBody User user) {
         return userServ.modifyUser(user);
+
     }
 
     @DeleteMapping("/remove-user/{userId}")

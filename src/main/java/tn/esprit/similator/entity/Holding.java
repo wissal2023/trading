@@ -26,7 +26,6 @@ public class Holding implements Serializable {
     Float curntPrice;  // Current market price per share/unit
     Float mktVal;   //  currentPrice * qty
     Date acquisitionDate;// acquired date
-
     @ManyToOne
     @JsonIgnore
     Portfolio portfolio;

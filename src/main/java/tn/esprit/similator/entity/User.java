@@ -34,6 +34,8 @@ public class User implements Serializable {
     @Column(nullable = false)
      boolean isEnabled = false;
 
+     Double commissionRate = 0.0015;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JsonIgnore
     Portfolio portfolio;

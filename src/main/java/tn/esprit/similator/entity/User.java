@@ -18,15 +18,29 @@ import java.util.List;
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String username;
-    String email;
-    String password;
-    Double rank;
-    Double commissionRate = 0.0015;
+     Long id;
+
+    @Column(nullable = false, unique = true)
+     String username;
+
+    @Column(nullable = false, unique = true)
+     String email;
+
+    @Column(nullable = false)
+     String password;
+
+     Double rank;
+
+    @Column(nullable = false)
+     boolean isEnabled = false;
+
+     Double commissionRate = 0.0015;
 
     @OneToOne(cascade = CascadeType.ALL)
-            @JsonIgnore
+    @JsonIgnore
     Portfolio portfolio;
 }
 
+
+
+}

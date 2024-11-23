@@ -22,16 +22,12 @@ public class PortfolioServImpl implements IPortfolioService{
     public List<Portfolio> retrieveAllPortfolios() {
         return portfolioRepo.findAll();
     }
-
     public Portfolio retrievePortfolio(Long portfolioId) {
         return portfolioRepo.findById(portfolioId).get();
     }
-
-
     public void removePortfolio(Long portfolioId) {
         portfolioRepo.deleteById(portfolioId);
     }
-
     public Portfolio modifyPortfolio(Portfolio portfolio) {
         return portfolioRepo.save(portfolio);
     }

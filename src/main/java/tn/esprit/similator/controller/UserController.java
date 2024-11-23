@@ -1,6 +1,5 @@
 package tn.esprit.similator.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,14 +20,12 @@ public class UserController {
     
     @GetMapping("/Get-all-users")
     public List<User> getUsers() {
-        List<User> listUtsers = userServ.retrieveAllUsers();
-        return listUtsers;
+        return userServ.retrieveAllUsers();
     }
     
     @GetMapping("/Get-user/{user-id}")
     public User retrieveUser(@PathVariable("user-id") Long userId) {
-        User user = userServ.retrieveUser(userId);
-        return user;
+        return userServ.retrieveUser(userId);
     }
     @PostMapping("/addAndAssignPortfolio")
     public ResponseEntity<User> addUserAndAssignPortfolio(@RequestBody User user) {
@@ -38,8 +35,7 @@ public class UserController {
 
     @PutMapping("/modify-user")
     public User modifyUser(@RequestBody User usr) {
-        User user = userServ.modifyUser(usr);
-        return user;
+        return userServ.modifyUser(usr);
     }
 
     @DeleteMapping("/remove-user/{user-id}")

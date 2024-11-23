@@ -23,6 +23,7 @@ public class User implements Serializable {
     String email;
     String password;
     Double rank;
+    Double commissionRate = 0.0015;
 
     @OneToOne(cascade = CascadeType.ALL)
             @JsonIgnore

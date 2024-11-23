@@ -6,6 +6,7 @@ import tn.esprit.similator.entity.Portfolio;
 import tn.esprit.similator.entity.User;
 import tn.esprit.similator.repository.UserRepo;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -17,7 +18,10 @@ public class UserServImpl implements IUserService{
 
     public User addUserAndAssignPortfolio(User user) {
         Portfolio portfolio = new Portfolio();
+        portfolio.setTotVal(100000.00); // or set it based on your logic
+        portfolio.setDateCreated(new Date());
         user.setPortfolio(portfolio);
+
         return userRepo.save(user);
     }
 
@@ -38,9 +42,3 @@ public class UserServImpl implements IUserService{
     }
 }
 
-
-/*
-    public User addUser(User usr) {
-        return userRepo.save(usr);
-    }
- */

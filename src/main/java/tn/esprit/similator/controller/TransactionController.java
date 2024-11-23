@@ -20,17 +20,16 @@ public class TransactionController {
     
     @GetMapping("/Get-all-transactions")
     public List<Transaction> getTransactions() {
-        List<Transaction> listUtsers = transactionServ.retrieveAllTransactions();
-        return listUtsers;
+        return transactionServ.retrieveAllTransactions();
     }
     
     @GetMapping("/Get-transaction/{transaction-id}")
     public Transaction retrieveTransaction(@PathVariable("transaction-id") Long transactionId) {
-        Transaction transaction = transactionServ.retrieveTransaction(transactionId);
-        return transaction;
+        return transactionServ.retrieveTransaction(transactionId);
+
     }
 
-
+/*
     @PostMapping("/AddTransaction/{placingOrderId}")
     public ResponseEntity<Transaction> addTransaction(@PathVariable Long placingOrderId,
                                                       @RequestBody Transaction transaction) {
@@ -39,10 +38,11 @@ public class TransactionController {
         return ResponseEntity.ok(createdTransaction);
     }
 
+ */
+
     @PutMapping("/modify-transaction")
     public Transaction modifyTransaction(@RequestBody Transaction asst) {
-        Transaction transaction = transactionServ.modifyTransaction(asst);
-        return transaction;
+        return transactionServ.modifyTransaction(asst);
     }
 
     @DeleteMapping("/remove-transaction/{transaction-id}")

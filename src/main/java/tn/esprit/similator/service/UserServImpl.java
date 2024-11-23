@@ -6,7 +6,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import tn.esprit.similator.entity.User;
 import tn.esprit.similator.repository.UserRepo;
-
+import java.util.Date;
+import java.util.Optional;
 import java.util.List;
 
 @Service
@@ -20,6 +21,11 @@ public class UserServImpl implements IUserService {
 
     @Override
     public User addUserAndAssignPortfolio(User user) {
+        Portfolio portfolio = new Portfolio();
+        portfolio.setTotVal(100000.00); // or set it based on your logic
+        portfolio.setDateCreated(new Date());
+        user.setPortfolio(portfolio);
+
         return userRepo.save(user);
     }
 
@@ -47,6 +53,7 @@ public class UserServImpl implements IUserService {
     }
 
     @Override
+
     public User changeStatus(Boolean status, Long userId) {
         User updatedUser = userRepo.findById(userId).orElse(null);
         updatedUser.setEnabled(status);
@@ -83,3 +90,22 @@ public class UserServImpl implements IUserService {
     //     return user;  // Login réussi
     // }
 }
+
+    public User loginUser(String email, String password) throws Exception {
+        Optional<User> userOpt = userRepo.findByEmail(email);
+        if (userOpt.isEmpty()) {
+            throw new Exception("User not found.");
+        }
+        User user = userOpt.get();
+        if (!password.equals(user.getPassword())) {  // Vérifie si le mot de passe correspond
+            throw new Exception("Invalid password.");
+        }
+        if (!user.isEnabled()) {
+            throw new Exception("User account is not activated.");
+        }
+        return user;  // Login réussi
+    }
+}
+
+}
+

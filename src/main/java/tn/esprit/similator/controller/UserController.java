@@ -23,6 +23,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UserController {
 
+ 
     @Autowired
     private IUserService userServ;
     private PasswordEncoder passwordEncoder;
@@ -47,6 +48,7 @@ public class UserController {
     @PutMapping("/modify-user")
     public User modifyUser(@RequestBody User user) {
         return userServ.modifyUser(user);
+
     }
 
     @DeleteMapping("/remove-user/{userId}")

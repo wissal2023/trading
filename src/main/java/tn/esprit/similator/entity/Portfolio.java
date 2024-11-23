@@ -3,6 +3,7 @@ package tn.esprit.similator.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -20,21 +21,22 @@ public class Portfolio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    Double totVal;
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     Date dateCreated;
-    Double accVal =99000.000;
-    Double buyPow;
-    Double cash;
-    Double tdyChange;  // Gains/losses as a result of today's market activity
-    Double annReturn;  // Percentage return extrapolated for a year
-    Double totGainLoss; // Total gain/loss percentage
-
-    @OneToOne(mappedBy = "portfolio")
-    @JsonIgnore
+    Double totVal;
+    Double accVal =100000.000;
+    Double buyPow=100000.000;
+    Double cash=100000.000;
+    Double tdyChange=0.0;  // Gains/losses as a result of today's market activity
+    Double annReturn=0.0;  // Percentage return extrapolated for a year
+    Double totGainLoss=0.0; // Total gain/loss percentage
+    @OneToOne(mappedBy = "portfolio", cascade = CascadeType.ALL)
     User user;
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    List<Transaction> transactions;
+    List<PlacingOrder> placingOrders= new ArrayList<>();
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    List<Holding> holdings;
+    List<Holding> holdings= new ArrayList<>();
+
+
 }
 

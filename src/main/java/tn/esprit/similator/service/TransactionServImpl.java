@@ -21,14 +21,22 @@ public class TransactionServImpl implements ITransactionService {
     public List<Transaction> retrieveAllTransactions() {
         return transactionRepo.findAll();
     }
-
     public Transaction retrieveTransaction(Long transactionId) {
         return transactionRepo.findById(transactionId).get();
     }
 
+    @Override
+    public void removeTransaction(Long transId) {
+
+    }
+
+    @Override
+    public Transaction modifyTransaction(Transaction transaction) {
+        return null;
+    }
+    /*
     public Transaction addTransaction(Long placingOrderId, Transaction transaction) {
         PlacingOrder placingOrder = placingOrderRepo.findById(placingOrderId).get();
-
         if (placingOrder.getStatus() == status.OPEN) {
             transaction.setPlacingOrder(placingOrder);
             Transaction savedTransaction = transactionRepo.save(transaction);
@@ -37,7 +45,7 @@ public class TransactionServImpl implements ITransactionService {
             Portfolio portfolio = placingOrder.getPortfolio();
             Holding holding = holdingRepo.findBySymbolAndPortfolio(transaction.getSymbol(), portfolio);
 
-            if (placingOrder.getTransacType() == transacType.BUY) {
+            if (placingOrder.getActionType() == actionType.BUY) {
                 if (holding == null) {
                     // Create a new holding if it doesn't exist
                     holding = new Holding();
@@ -55,7 +63,7 @@ public class TransactionServImpl implements ITransactionService {
                     holding.setQty(newQty);
                     holding.setAvgPrice(newAvgPrice);
                 }
-            } else if (placingOrder.getTransacType() == transacType.SELL) {
+            } else if (placingOrder.getActionType() == actionType.SELL) {
                 if (holding != null) {
                     Double newQty = holding.getQty() - transaction.getQuantity();
 
@@ -75,25 +83,12 @@ public class TransactionServImpl implements ITransactionService {
             throw new RuntimeException("Cannot add transaction. The placing order status is not OPEN.");
         }
     }
-
-    /*
-    public Transaction addTransaction(Long placingOrderId, Transaction transaction) {
-        PlacingOrder placingOrder = placingOrderRepo.findById(placingOrderId).get();
-        if (placingOrder.getStatus() == status.OPEN) {
-            transaction.setPlacingOrder(placingOrder);
-            return transactionRepo.save(transaction);
-        } else {
-            throw new RuntimeException("Cannot do a transaction. The Market is not OPEN.");
-        }
-    }
-
-     */
-
     public void removeTransaction(Long transactionId) {
         transactionRepo.deleteById(transactionId);
     }
-
     public Transaction modifyTransaction(Transaction transaction) {
         return transactionRepo.save(transaction);
     }
+
+     */
 }

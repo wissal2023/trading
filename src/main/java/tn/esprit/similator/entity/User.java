@@ -54,6 +54,8 @@ public class User implements UserDetails, Principal {
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;
 
+     Double commissionRate = 0.0015;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Portfolio portfolio;
 

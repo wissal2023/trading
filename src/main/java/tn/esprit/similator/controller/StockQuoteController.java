@@ -1,5 +1,6 @@
 package tn.esprit.similator.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.Set;
 @RequestMapping("/API")
 @CrossOrigin(origins = "*")
 @AllArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class StockQuoteController {
 
     private final StockQuoteService stockQuoteService;

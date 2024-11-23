@@ -1,5 +1,6 @@
 package tn.esprit.similator.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,10 +30,10 @@ import tn.esprit.similator.service.IUserService;
 @RequiredArgsConstructor
 @Tag(name = "Authentication")
 @CrossOrigin(origins = "*")
+@SecurityRequirement(name = "bearerAuth")
 public class AuthenticationController {
 
     private final AuthenticationService service;
-    private final IUserService userService;
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.ACCEPTED)

@@ -1,5 +1,6 @@
 package tn.esprit.similator.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/portfolio")
 @CrossOrigin(origins = "*")
+@SecurityRequirement(name = "bearerAuth")
 public class PortfolioController {
 
     IPortfolioService portfolioServ;

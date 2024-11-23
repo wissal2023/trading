@@ -1,5 +1,6 @@
 package tn.esprit.similator.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping("/user")
 @AllArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class UserController {
 
  
@@ -39,11 +41,11 @@ public class UserController {
         return userServ.retrieveUser(userId);
     }
 
-    @PostMapping("/addAndAssignPortfolio")
-    public ResponseEntity<User> addUserAndAssignPortfolio(@RequestBody User user) {
-        User createdUser = userServ.addUserAndAssignPortfolio(user);
-        return ResponseEntity.ok(createdUser);
-    }
+//    @PostMapping("/addAndAssignPortfolio")
+//    public ResponseEntity<User> addUserAndAssignPortfolio(@RequestBody User user) {
+//        User createdUser = userServ.addUserAndAssignPortfolio(user);
+//        return ResponseEntity.ok(createdUser);
+//    }
 
     @PutMapping("/modify-user")
     public User modifyUser(@RequestBody User user) {

@@ -52,6 +52,10 @@ public class PlacingOrder {
     LocalDateTime expiryDate;
     Double nav;
 
+    @ManyToOne
+    @JsonIgnore
+    Portfolio portfolio;
+
     @OneToMany(mappedBy = "placingOrder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     List<Transaction> transactions;

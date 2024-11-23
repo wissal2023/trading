@@ -2,6 +2,7 @@ package tn.esprit.similator.service;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,10 +18,7 @@ import lombok.RequiredArgsConstructor;
 import tn.esprit.similator.dtos.AuthenticationRequest;
 import tn.esprit.similator.dtos.AuthenticationResponse;
 import tn.esprit.similator.dtos.RegistrationRequest;
-import tn.esprit.similator.entity.EmailTemplateName;
-import tn.esprit.similator.entity.Token;
-import tn.esprit.similator.entity.User;
-import tn.esprit.similator.entity.UserRole;
+import tn.esprit.similator.entity.*;
 import tn.esprit.similator.repository.RoleRepository;
 import tn.esprit.similator.repository.TokenRepository;
 import tn.esprit.similator.repository.UserRepo;
@@ -40,23 +38,29 @@ public class AuthenticationService {
     @Value("${application.mailing.frontend.activation-url}")
     private String activationUrl;
 
-    public void register( RegistrationRequest request) throws MessagingException {
+    public void register(RegistrationRequest request) throws MessagingException {
 
-        // Assign a defauld role : UserRole
+        // Assign a default role: UserRole
         var userRole = roleRepository.findByName(UserRole.CUSTOMER.name())
-                                        .orElseThrow(
-                                            () -> new IllegalStateException("ROLE CUSTOMER was not initialized")
-                                            );
-        
-        // Create User object and save it
+                .orElseThrow(() -> new IllegalStateException("ROLE CUSTOMER was not initialized"));
+
+        // Create a new portfolio for the user
+        Portfolio portfolio = new Portfolio();
+        portfolio.setTotVal(100000.00); // Initial total value for the portfolio
+        portfolio.setDateCreated(new Date());
+
+        // Create User object and link the portfolio
         var user = User.builder()
-                            .fullname(request.getUsername())
-                            .email(request.getEmail())
-                            .password(passwordEncoder.encode(request.getPassword()))
-                            .accountLocked(false)
-                            .enabled(false)
-                            .roles(List.of(userRole))
-                            .build();
+                .fullname(request.getUsername())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .accountLocked(false)
+                .enabled(false)
+                .roles(List.of(userRole))
+                .portfolio(portfolio) // Assign portfolio to the user
+                .build();
+
+        // Save the user (this will also save the portfolio if cascade is set)
         userRepository.save(user);
 
         // Send validation email
@@ -106,19 +110,21 @@ public class AuthenticationService {
                 ));
         var claims = new HashMap<String, Object>();
         var user = ((User)auth.getPrincipal());
+        Long portfolioId = user.getPortfolio() != null ? user.getPortfolio().getId() : null;//new code
         claims.put("username", user.getUsername());
+        claims.put("portfolioId", portfolioId); //new code
         var jwtToken = jwtService.generateToken(claims, user);
         return AuthenticationResponse.builder()
                                         .user(user)
                                         .token(jwtToken)
                                         .build();
+
+
     }
 
     // @Transactional
     public void activateAccount(String token) throws MessagingException {
-        Token savedToken = tokenRepository.findByToken(token)
-                                                // todo - Exception has to be defined
-                                                .orElseThrow(() -> new RuntimeException("Invalid token"));
+        Token savedToken = tokenRepository.findByToken(token).orElseThrow(() -> new RuntimeException("Invalid token"));
         if(LocalDateTime.now().isAfter(savedToken.getExpiredAt())) {
             sendValidationEmail(savedToken.getUser());
             throw new RuntimeException("Activation token has expired. A new token has been sent to the same email adress.");

@@ -5,11 +5,12 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.format.annotation.DateTimeFormat;
-
+import java.util.Date;
+import java.util.List;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
+
 
 @Entity
 @Getter
@@ -18,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PlacingOrder  implements Serializable {
+public class PlacingOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -30,7 +31,7 @@ public class PlacingOrder  implements Serializable {
     String note;
     String param; //$ ou %
     String duration;// daily or untill cancelled
-
+  
     @Enumerated(EnumType.STRING)
     assetsType assetsType; // Stocks,OPTIONS,Bonds,Commodities,Forex,Mutual_Funds,ETF
     @Enumerated(EnumType.STRING)
@@ -51,11 +52,8 @@ public class PlacingOrder  implements Serializable {
     LocalDateTime expiryDate;
     Double nav;
 
-    @ManyToOne
+    @OneToMany(mappedBy = "placingOrder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
-    Portfolio portfolio;
-
-    @OneToMany(mappedBy="placingOrder")
-    List<Transaction> transactions= new ArrayList<>();
+    List<Transaction> transactions;
 
 }

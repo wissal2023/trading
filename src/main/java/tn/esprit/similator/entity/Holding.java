@@ -8,6 +8,8 @@ import lombok.experimental.FieldDefaults;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Getter
 @Setter

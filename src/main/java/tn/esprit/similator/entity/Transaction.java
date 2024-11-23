@@ -1,14 +1,13 @@
 package tn.esprit.similator.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Getter
@@ -17,7 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Transaction implements Serializable {
+public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -33,6 +32,8 @@ public class Transaction implements Serializable {
     String transactionType;
     @ManyToOne
     @JsonIgnore
+    Portfolio portfolio;
+    @ManyToOne
     PlacingOrder placingOrder;
 }
 

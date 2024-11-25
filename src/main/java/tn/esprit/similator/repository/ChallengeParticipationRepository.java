@@ -2,7 +2,7 @@ package tn.esprit.similator.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import tn.esprit.pif.entity.ChallengeParticipation;
+import tn.esprit.similator.entity.ChallengeParticipation;
 
 import java.util.List;
 

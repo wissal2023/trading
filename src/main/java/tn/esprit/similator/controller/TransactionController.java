@@ -1,6 +1,5 @@
 package tn.esprit.similator.controller;
 
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import tn.esprit.pif.entity.Challenge;
-import tn.esprit.pif.repository.ChallengeRepository;
-import tn.esprit.pif.repository.TransactionRepository;
+import tn.esprit.similator.entity.Challenge;
 import tn.esprit.similator.entity.Transaction;
+import tn.esprit.similator.repository.ChallengeRepository;
+import tn.esprit.similator.repository.TransactionRepo;
 import tn.esprit.similator.service.ITransactionService;
 
 import java.util.Arrays;
@@ -27,11 +26,8 @@ import java.util.Optional;
 public class TransactionController {
 
     ITransactionService transactionServ;
-    @Autowired
-    private ChallengeRepository challengeRepository;
-
-    @Autowired
-    private TransactionRepository transactionRepository;
+    ChallengeRepository challengeRepository;
+    private TransactionRepo transactionRepository;
 
     // Endpoint pour créer une nouvelle transaction
 
@@ -39,14 +35,13 @@ public class TransactionController {
     @PostMapping("/{challengeId}/transactions")
     public ResponseEntity<?> createTransaction(
             @PathVariable Long challengeId,
-            @RequestBody tn.esprit.pif.entity.Transaction transaction) {
+            @RequestBody Transaction transaction) {
 
         // Vérifiez si le challenge existe avec cet ID
         Optional<Challenge> existingChallenge = challengeRepository.findById(challengeId);
         if (existingChallenge.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-
         // Vérifiez si la transaction concerne une cryptomonnaie
         if (transaction.getCurrency() != null && isCryptoCurrency(transaction.getCurrency())) {
             // Appel à l'API CoinGecko pour obtenir le prix actuel de la cryptomonnaie
@@ -57,12 +52,10 @@ public class TransactionController {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de la récupération du prix de la cryptomonnaie.");
             }
         }
-
         // Assigner le challenge à la transaction
         transaction.setChallenge(existingChallenge.get());
-
         // Enregistrer la transaction
-        tn.esprit.pif.entity.Transaction savedTransaction = transactionRepository.save(transaction);
+        Transaction savedTransaction = transactionRepository.save(transaction);
 
         // Retournez une réponse avec la transaction sauvegardée
         return ResponseEntity.ok(savedTransaction);
@@ -92,14 +85,14 @@ public class TransactionController {
 
     // Endpoint pour récupérer toutes les transactions
     @GetMapping()
-    public List<tn.esprit.pif.entity.Transaction> getAllTransactions() {
-        return transactionServ.getAllTransactions();
+    public List<Transaction> getAllTransactions() {
+        return transactionServ.retrieveAllTransactions();
     }
 
     // Endpoint pour récupérer une transaction par ID
     @GetMapping("/get-transaction/{id}")
-    public ResponseEntity<tn.esprit.pif.entity.Transaction> getTransactionById(@PathVariable Long id) {
-        tn.esprit.pif.entity.Transaction transaction = transactionServ.getTransactionById(id);
+    public ResponseEntity<Transaction> getTransactionById(@PathVariable Long id) {
+        Transaction transaction = transactionServ.retrieveTransaction(id);
         if (transaction == null) {
             return ResponseEntity.notFound().build();
         }
@@ -108,8 +101,8 @@ public class TransactionController {
 
     // Endpoint pour mettre à jour une transaction
     @PutMapping("/update-transaction/{id}")
-    public ResponseEntity<tn.esprit.pif.entity.Transaction> updateTransaction(@PathVariable Long id, @RequestBody tn.esprit.pif.entity.Transaction transactionDetails) {
-        tn.esprit.pif.entity.Transaction updatedTransaction = transactionServ.updateTransaction(id, transactionDetails);
+    public ResponseEntity<Transaction> updateTransaction(@PathVariable Long id, @RequestBody Transaction transactionDetails) {
+        Transaction updatedTransaction = transactionServ.updateTransaction(id, transactionDetails);
         if (updatedTransaction == null) {
             return ResponseEntity.notFound().build();
         }
@@ -119,7 +112,7 @@ public class TransactionController {
     // Endpoint pour supprimer une transaction
     @DeleteMapping("/delete-transaction/{id}")
     public ResponseEntity<Void> deleteTransaction(@PathVariable Long id) {
-        transactionServ.deleteTransaction(id);
+        transactionServ.removeTransaction(id);
         return ResponseEntity.noContent().build();
     }
     @GetMapping("/Get-all-transactions")
@@ -137,17 +130,6 @@ public class TransactionController {
         return transactionServ.getTransactionsByPortfolioId(portfolioId);
     }
 
-/*
-    @PostMapping("/AddTransaction/{placingOrderId}")
-    public ResponseEntity<Transaction> addTransaction(@PathVariable Long placingOrderId,
-                                                      @RequestBody Transaction transaction) {
-
-        Transaction createdTransaction = transactionServ.addTransaction(placingOrderId, transaction);
-        return ResponseEntity.ok(createdTransaction);
-    }
-
- */
-
     @PutMapping("/modify-transaction")
     public Transaction modifyTransaction(@RequestBody Transaction asst) {
         return transactionServ.modifyTransaction(asst);
@@ -158,5 +140,17 @@ public class TransactionController {
         transactionServ.removeTransaction(transactionId);
     }
 
+
+
+    /*
+    @PostMapping("/AddTransaction/{placingOrderId}")
+    public ResponseEntity<Transaction> addTransaction(@PathVariable Long placingOrderId,
+                                                      @RequestBody Transaction transaction) {
+
+        Transaction createdTransaction = transactionServ.addTransaction(placingOrderId, transaction);
+        return ResponseEntity.ok(createdTransaction);
+    }
+
+ */
 
 }

@@ -2,10 +2,10 @@ package tn.esprit.similator.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.esprit.pif.entity.ChallengeParticipation;
-import tn.esprit.pif.repository.ChallengeParticipationRepository;
-import tn.esprit.pif.repository.ChallengeRepository;
-import tn.esprit.pif.repository.UserRepository;
+import tn.esprit.similator.entity.ChallengeParticipation;
+import tn.esprit.similator.repository.ChallengeParticipationRepository;
+import tn.esprit.similator.repository.ChallengeRepository;
+import tn.esprit.similator.repository.UserRepo;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,12 +15,12 @@ public class ChallengeParticipationService {
 
     private final ChallengeParticipationRepository challengeParticipationRepository;
     private final ChallengeRepository challengeRepository;
-    private final UserRepository userRepository;
+    private final UserRepo userRepository;
 
     @Autowired
     public ChallengeParticipationService(ChallengeParticipationRepository challengeParticipationRepository,
                                          ChallengeRepository challengeRepository,
-                                         UserRepository userRepository) {
+                                         UserRepo userRepository) {
         this.challengeParticipationRepository = challengeParticipationRepository;
         this.challengeRepository = challengeRepository;
         this.userRepository = userRepository;

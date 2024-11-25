@@ -3,8 +3,8 @@ package tn.esprit.similator.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.pif.entity.ChallengeParticipation;
-import tn.esprit.pif.service.ChallengeParticipationService;
+import tn.esprit.similator.entity.ChallengeParticipation;
+import tn.esprit.similator.service.ChallengeParticipationService;
 
 import java.util.List;
 

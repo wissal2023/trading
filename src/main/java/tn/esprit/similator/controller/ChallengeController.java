@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.pif.entity.Challenge;
-import tn.esprit.pif.service.ChallengeParticipationService;
-import tn.esprit.pif.service.ChallengeService;
+import tn.esprit.similator.entity.Challenge;
+import tn.esprit.similator.service.ChallengeParticipationService;
+import tn.esprit.similator.service.ChallengeService;
 
 import java.util.List;
 

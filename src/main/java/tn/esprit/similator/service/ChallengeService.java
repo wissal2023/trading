@@ -2,8 +2,8 @@ package tn.esprit.similator.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import tn.esprit.pif.entity.Challenge;
-import tn.esprit.pif.repository.ChallengeRepository;
+import tn.esprit.similator.entity.Challenge;
+import tn.esprit.similator.repository.ChallengeRepository;
 
 import java.util.List;
 

@@ -1,12 +1,8 @@
 package tn.esprit.similator.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.esprit.pif.repository.TransactionRepository;
 import tn.esprit.similator.entity.*;
-import tn.esprit.similator.repository.HoldingRepo;
-import tn.esprit.similator.repository.PlacingOrderRepo;
 import tn.esprit.similator.repository.TransactionRepo;
 
 import java.util.Date;
@@ -19,24 +15,24 @@ public class TransactionServImpl implements ITransactionService {
 
 
     // Méthode pour créer une nouvelle transaction
-    public tn.esprit.pif.entity.Transaction createTransaction(tn.esprit.pif.entity.Transaction transaction) {
+    public Transaction createTransaction(Transaction transaction) {
         transaction.processTransaction();
         transaction.setTotalAmount(transaction.getPrice() * transaction.getQuantity());// Traite la transaction avant de l'enregistrer
         return transactionRepo.save(transaction);
     }
     // Méthode pour récupérer toutes les transactions
-    public List<tn.esprit.pif.entity.Transaction> getAllTransactions() {
+    public List<Transaction> getAllTransactions() {
         return transactionRepo.findAll();
     }
 
     // Méthode pour récupérer une transaction par ID
-    public tn.esprit.pif.entity.Transaction getTransactionById(Long id) {
+    public Transaction getTransactionById(Long id) {
         return transactionRepo.findById(id).orElse(null);
     }
 
     // Méthode pour mettre à jour une transaction
-    public tn.esprit.pif.entity.Transaction updateTransaction(Long id, tn.esprit.pif.entity.Transaction transactionDetails) {
-        tn.esprit.pif.entity.Transaction transaction = getTransactionById(id);
+    public Transaction updateTransaction(Long id, Transaction transactionDetails) {
+        Transaction transaction = getTransactionById(id);
         if (transaction != null) {
             transaction.setPrice(transactionDetails.getPrice());
             transaction.setCurrency(transactionDetails.getCurrency());
@@ -63,9 +59,6 @@ public class TransactionServImpl implements ITransactionService {
     public List<Transaction> getTransactionsByPortfolioId(Long portfolioId) {
         return transactionRepo.findByPortfolioId(portfolioId);
     }
-
-
-
     public void removeTransaction(Long transId) {
         transactionRepo.deleteById(transId);
     }

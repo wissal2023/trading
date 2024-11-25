@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tn.esprit.pif.service.AlphaVantageService;
+import tn.esprit.similator.service.AlphaVantageService;
 
 @RestController
 @RequestMapping("/api")

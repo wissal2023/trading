@@ -24,6 +24,7 @@ public class Portfolio {
     Long id;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     Date dateCreated;
+
     Double totVal;
     Double accVal =100000.000;
     Double buyPow=100000.000;
@@ -34,6 +35,7 @@ public class Portfolio {
     @OneToOne(mappedBy = "portfolio", cascade = CascadeType.ALL)
     @JsonIgnore
     User user;
+
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<PlacingOrder> placingOrders= new ArrayList<>();
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

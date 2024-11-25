@@ -5,15 +5,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.format.annotation.DateTimeFormat;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import tn.esprit.pif.entity.Challenge;
-import tn.esprit.pif.entity.ChallengeCategory;
-import tn.esprit.pif.entity.Status;
-import tn.esprit.pif.entity.Type;
-
 @Entity
 @Getter
 @Setter
@@ -35,28 +29,25 @@ public class Transaction {
     Double commiss;
     Double dividende= 0.0;
     //String transactionType;
+    String currency; // Devise de la transaction, par exemple "USD", "EUR", "BTC"
+    Date transactionDate;
+
     @ManyToOne
     @JsonIgnore
     Portfolio portfolio;
+
     @ManyToOne
     PlacingOrder placingOrder;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "challenge_id", nullable = false)
     @JsonBackReference
-    private Challenge challenge;
-
-
-
-
-
-
-    private String currency; // Devise de la transaction, par exemple "USD", "EUR", "BTC"
-    private Date transactionDate;
+    Challenge challenge;
 
     @Enumerated(EnumType.STRING)
-    private Type type; // Type de transaction: "BUY", "SELL", etc.
+    Type type; // Type de transaction: "BUY", "SELL", etc.
     @Enumerated(EnumType.STRING)
-    private tn.esprit.pif.entity.Status status;
+    Status status;
 
     // Attributs supplémentaires pour la catégorie INTANGIBLES
     private String intangibleAsset; // Type d'actif incorporel (ex: Brevet, Licence, etc.)
@@ -67,8 +58,6 @@ public class Transaction {
     private Double marketValue; // Valeur marchande de l'actif
     private Double investmentAmount; // Montant investi dans l'actif
     private Double expectedRevenue; // Revenu attendu de l'actif
-
-
 
     // Attributs spécifiques pour la catégorie OBLIGATIONS
     private Double bondAmount; // Montant de l'obligation
@@ -81,10 +70,10 @@ public class Transaction {
     public void processTransaction() {
         try {
             if (this.challenge != null) {
-                if (this.challenge.getCategory() == tn.esprit.pif.entity.ChallengeCategory.CRYPTOCURRENCY) {
+                if (this.challenge.getCategory() == ChallengeCategory.CRYPTOCURRENCY) {
                     System.out.println("Processing a cryptocurrency transaction...");
                     this.price *= 1.02; // Hypothetical market fluctuation adjustment
-                } else if (this.challenge.getCategory() == tn.esprit.pif.entity.ChallengeCategory.INTANGIBLES) {
+                } else if (this.challenge.getCategory() == ChallengeCategory.INTANGIBLES) {
                     System.out.println("Processing an intangible asset transaction...");
                     // Ajustements spécifiques aux actifs incorporels
                     if (this.intangibleValue != null) {
@@ -110,7 +99,7 @@ public class Transaction {
                         this.price += this.faceValue; // Ajouter la valeur nominale de l'obligation
                     }
                 }
-                this.status = tn.esprit.pif.entity.Status.COMPLETED;
+                this.status = Status.COMPLETED;
             } else {
                 throw new IllegalArgumentException("No challenge associated with this transaction.");
             }

@@ -3,7 +3,8 @@ package tn.esprit.similator.controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tn.esprit.pif.service.ForexScrapingService;
+import tn.esprit.similator.service.ForexScrapingService;
+
 @RestController
 @RequestMapping("/api/forex")
 public class ForexController {

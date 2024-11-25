@@ -11,4 +11,5 @@ public interface ITransactionService {
     public List<Transaction> getTransactionsByPortfolioId(Long portfolioId);
     public void removeTransaction(Long transId);
     public Transaction modifyTransaction(Transaction transaction);
+    public Transaction updateTransaction(Long id, Transaction transactionDetails);
 }

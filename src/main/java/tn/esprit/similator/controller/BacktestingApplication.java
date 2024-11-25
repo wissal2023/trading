@@ -58,7 +58,7 @@ public class BacktestingApplication {
   // User Management Endpoints
   @PostMapping("/register")
   public ResponseEntity<User> register(@RequestBody LoginRequest request) {
-    if (userRepository.findByUsername(request.getUsername()).isPresent()) {
+    if (userRepository.findByFullname(request.getUsername()).isPresent()) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists");
     }
 
@@ -68,7 +68,7 @@ public class BacktestingApplication {
 
   @PostMapping("/login")
   public ResponseEntity<User> login(@RequestBody LoginRequest request) {
-    User user = userRepository.findByUsername(request.getUsername())
+    User user = userRepository.findByFullname(request.getUsername())
       .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
     if (!user.getPassword().equals(request.getPassword())) {

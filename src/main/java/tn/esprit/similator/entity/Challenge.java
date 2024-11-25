@@ -5,9 +5,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import tn.esprit.pif.entity.Transaction;
-import tn.esprit.pif.entity.User;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
@@ -23,51 +20,25 @@ public class Challenge {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    // Nom du challenge
-
-
-    // Jours minimum de trading
     private int minimumTradingDays;
-
-    // Effet de levier (Leverage)
-    private String leverage;
-
-    // Objectif de profit (Profit Target)
-    private String profitTarget;
-
-    // Pertes maximales (Max Loss)
-    private String maxLoss;
-
-    // Pertes maximales par jour (Max Daily Loss)
-    private String maxDailyLoss;
-
-    // Délai de paiement express (Payout Express)
-    private String payoutExpress;
-
-    // Booster de profit (Profit Booster)
-    private String profitBooster;
-
-    // Trading sur les news (Trade the News)
-    private boolean tradeTheNews;
-    @Enumerated(EnumType.STRING)
-    private ChallengeCategory category;
-
-    // Trading le week-end (Weekend Trading)
-    private boolean weekendTrading;
-
-    // Activation de EA (EA Enabled)
-    private boolean eaEnabled;
-
-    // Frais remboursables (Refundable Fees)
-    private String refundableFees;
-
+    private String leverage;     // Effet de levier (Leverage)
+    private String profitTarget;     // Objectif de profit (Profit Target)
+    private String maxLoss;    // Pertes maximales (Max Loss)
+    private String maxDailyLoss;    // Pertes maximales par jour (Max Daily Loss)
+    private String payoutExpress;     // Délai de paiement express (Payout Express)
+    private String profitBooster;    // Booster de profit (Profit Booster)
+    private boolean tradeTheNews;    // Trading sur les news (Trade the News)
+    private boolean weekendTrading;    // Trading le week-end (Weekend Trading)
+    private boolean eaEnabled; // Activation de EA (EA Enabled)
+    private String refundableFees;    // Frais remboursables (Refundable Fees)
     // Dates de début et de fin du challenge
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate startDate;
-
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
+    @Enumerated(EnumType.STRING)
+    private ChallengeCategory category;
 
     @OneToMany(mappedBy = "challenge", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ChallengeParticipation> challengeParticipations ;
@@ -75,7 +46,6 @@ public class Challenge {
     @OneToMany(mappedBy = "challenge", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Transaction> transactions;
-
 
     @ManyToMany
     @JoinTable(name = "Challenge_users",

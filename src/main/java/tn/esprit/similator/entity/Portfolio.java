@@ -27,8 +27,7 @@ public class Portfolio {
     Double annReturn;  // Percentage return extrapolated for a year
     Double totGainLoss; // Total gain/loss percentage
 
-    @OneToOne(mappedBy = "portfolio")
-    User user;
+
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<Transaction> transactions;
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

@@ -4,25 +4,36 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@ToString
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@AllArgsConstructor
+@Entity
+@Table(name = "users")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String username;
-    String email;
-    String password;
-    Double rank;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    Portfolio portfolio;
+  @Column(unique = true)
+  private String username;
+  private String password;
+  private int bonusPoints;
+  @OneToMany(mappedBy = "user")
+  private List<BacktestResult> backtestResults;
+
+
+  @OneToMany(mappedBy = "user")
+  private List<UserQuizProgress> quizProgress;
+
+  public User(String username, String password) {
+    this.username = username;
+    this.password = password;
+    this.backtestResults = new ArrayList<>();
+  }
+
 }
 

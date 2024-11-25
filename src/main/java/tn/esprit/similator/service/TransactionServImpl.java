@@ -1,7 +1,9 @@
 package tn.esprit.similator.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tn.esprit.pif.repository.TransactionRepository;
 import tn.esprit.similator.entity.*;
 import tn.esprit.similator.repository.HoldingRepo;
 import tn.esprit.similator.repository.PlacingOrderRepo;
@@ -14,6 +16,44 @@ import java.util.List;
 @AllArgsConstructor
 public class TransactionServImpl implements ITransactionService {
     TransactionRepo transactionRepo;
+
+
+    // Méthode pour créer une nouvelle transaction
+    public tn.esprit.pif.entity.Transaction createTransaction(tn.esprit.pif.entity.Transaction transaction) {
+        transaction.processTransaction();
+        transaction.setTotalAmount(transaction.getPrice() * transaction.getQuantity());// Traite la transaction avant de l'enregistrer
+        return transactionRepo.save(transaction);
+    }
+    // Méthode pour récupérer toutes les transactions
+    public List<tn.esprit.pif.entity.Transaction> getAllTransactions() {
+        return transactionRepo.findAll();
+    }
+
+    // Méthode pour récupérer une transaction par ID
+    public tn.esprit.pif.entity.Transaction getTransactionById(Long id) {
+        return transactionRepo.findById(id).orElse(null);
+    }
+
+    // Méthode pour mettre à jour une transaction
+    public tn.esprit.pif.entity.Transaction updateTransaction(Long id, tn.esprit.pif.entity.Transaction transactionDetails) {
+        tn.esprit.pif.entity.Transaction transaction = getTransactionById(id);
+        if (transaction != null) {
+            transaction.setPrice(transactionDetails.getPrice());
+            transaction.setCurrency(transactionDetails.getCurrency());
+            transaction.setQuantity(transactionDetails.getQuantity());
+            transaction.setType(transactionDetails.getType());
+            transaction.setStatus(transactionDetails.getStatus());
+            transaction.setTransactionDate(transactionDetails.getTransactionDate());
+            transaction.processTransaction(); // Traiter la transaction avant de la sauvegarder
+            return transactionRepo.save(transaction);
+        }
+        return null;
+    }
+
+    // Méthode pour supprimer une transaction
+    public void deleteTransaction(Long id) {
+        transactionRepo.deleteById(id);
+    }
     public List<Transaction> retrieveAllTransactions() {
         return transactionRepo.findAll();
     }

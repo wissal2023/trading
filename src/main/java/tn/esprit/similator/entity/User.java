@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -20,6 +21,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import tn.esprit.pif.entity.Challenge;
 
 @Getter
 @Setter
@@ -65,7 +67,9 @@ public class User implements UserDetails, Principal {
     public String getName() {
         return email;
     }
-
+    @ToString.Exclude
+    @ManyToMany(mappedBy = "users")
+    private Set<Challenge> challenges;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles.stream()

@@ -4,9 +4,13 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+
+import java.util.ArrayList;
+
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Collection;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,7 +21,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-@Entity
 @Getter
 @Setter
 @Builder
@@ -44,7 +47,7 @@ public class User implements UserDetails, Principal {
     private boolean accountLocked;
     private boolean enabled;
     Double commissionRate = 0.0015;
-
+ private int bonusPoints;
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate;
@@ -99,6 +102,19 @@ public class User implements UserDetails, Principal {
     public boolean isEnabled() {
         return enabled;
     }
+    @OneToMany(mappedBy = "user")
+  private List<BacktestResult> backtestResults;
+
+
+  @OneToMany(mappedBy = "user")
+  private List<UserQuizProgress> quizProgress;
+
+  public User(String username, String password) {
+    this.username = username;
+    this.password = password;
+    this.backtestResults = new ArrayList<>();
+  }
+
 
 }
 

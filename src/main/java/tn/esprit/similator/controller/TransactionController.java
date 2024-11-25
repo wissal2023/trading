@@ -30,6 +30,10 @@ public class TransactionController {
         return transactionServ.retrieveTransaction(transactionId);
 
     }
+    @GetMapping("/Get-transactions-by-portfolio/{portfolioId}")
+    public List<Transaction> getTransactionsByPortfolio(@PathVariable Long portfolioId) {
+        return transactionServ.getTransactionsByPortfolioId(portfolioId);
+    }
 
 /*
     @PostMapping("/AddTransaction/{placingOrderId}")

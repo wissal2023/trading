@@ -13,8 +13,6 @@ import java.util.List;
 public class PortfolioServImpl implements IPortfolioService{
 
     PortfolioRepo portfolioRepo;
-    StockQuoteService marketService;
-    HoldingRepo holdingRepository;
     //-------------------CRUD------------------
     public List<Portfolio> retrieveAllPortfolios() {
         return portfolioRepo.findAll();

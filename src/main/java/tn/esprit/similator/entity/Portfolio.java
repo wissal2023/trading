@@ -33,7 +33,7 @@ public class Portfolio {
     Double totGainLoss=0.0; // Total gain/loss percentage
 
     @OneToOne(mappedBy = "portfolio", cascade = CascadeType.ALL)
-            @JsonIgnore
+    @JsonIgnore
     User user;
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<PlacingOrder> placingOrders= new ArrayList<>();

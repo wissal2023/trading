@@ -3,6 +3,7 @@ package tn.esprit.similator.controller;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.similator.entity.Holding;
 import tn.esprit.similator.service.IHoldingService;
@@ -15,7 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 @RequestMapping("/holding")
-@SecurityRequirement(name = "bearerAuth")
 public class HoldingController {
 
     IHoldingService holdingServ;
@@ -47,6 +47,16 @@ public class HoldingController {
     }
 
     // -------------------OTHER METHOD----------------------
+
+    @GetMapping("/portfolio/{portfolioId}")
+    public ResponseEntity<List<Holding>> getHoldingsByPortfolioId(@PathVariable Long portfolioId) {
+        List<Holding> holdings = holdingServ.getHoldingsByPortfolioId(portfolioId);
+        if (holdings.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(holdings);
+    }
+
 
 
     /*

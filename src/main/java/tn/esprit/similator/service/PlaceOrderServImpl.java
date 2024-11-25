@@ -17,6 +17,7 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 @Slf4j
@@ -32,7 +33,7 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
 
     // scheduler to check the market of the symbol is ope or not = scheduler on the order class
     //@Scheduled(cron = "0 */15 14-21 * * MON-FRI") // Runs every 15 mins between 14:00 and 21:00 (market hours)
-    @Scheduled(cron = "0 10 21 * * ?")
+    @Scheduled(cron = "0 45 18 * * ?")
     public void checkAndExecutePendingOrders() {
         List<PlacingOrder> pendingOrders = placingOrderRepo.findByStatus(Status.PENDING); // Retrieve pending orders
         for (PlacingOrder order : pendingOrders) {
@@ -72,10 +73,12 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
             }
         }
     }
+
     private void updateOrderStatusToFilled(PlacingOrder placingOrder) {
         placingOrder.setStatus(Status.FILLED);
         placingOrderRepo.save(placingOrder); // Update the order status
     }
+
     public PlacingOrder addPlacingOrderBasedOnMarketStatus(Long portfolioId, PlacingOrder placingOrder) {
         // Fetch market info from stockQuoteService
         Map<String, Object> marketInfo = stockQuoteService.searchStockSymbols(placingOrder.getSymbol());
@@ -89,8 +92,9 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
         // Check if bestMatches is null or empty
         if (bestMatches == null || bestMatches.isEmpty()) {
             log.warn("No market information found for symbol: " + placingOrder.getSymbol());
-            throw new RuntimeException("Market information not available for the symbol.");        }
-                Map<String, String> match = bestMatches.get(0); // Parse market open and close times
+            throw new RuntimeException("Market information not available for the symbol.");
+        }
+        Map<String, String> match = bestMatches.get(0); // Parse market open and close times
         String marketOpenStr = match.get("5. marketOpen");
         String marketCloseStr = match.get("6. marketClose");
         String timezone = match.get("7. timezone");
@@ -113,6 +117,7 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
             return addOrderWhenMktClosed(portfolioId, placingOrder);
         }
     }
+
     public PlacingOrder addOrderWhenMktClosed(Long portfolioId, PlacingOrder placingOrder) {
         Portfolio portfolio = portfolioRepo.findById(portfolioId).orElseThrow(() -> new RuntimeException("Portfolio not found with id: " + portfolioId));
         placingOrder.setPortfolio(portfolio);
@@ -249,6 +254,7 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
             portfolio.setAccVal(portfolio.getAccVal() - totalAmount); // Update total value to reflect sale
         }
     }
+
     public PlacingOrder calculateBuyStock(Long portfolioId, PlacingOrder placingOrder) {
         Portfolio portfolio = portfolioRepo.findById(portfolioId).orElseThrow(() -> new RuntimeException("Portfolio not found with id: " + portfolioId));
         User user = portfolio.getUser();
@@ -301,6 +307,7 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
         }
         return placingOrder;
     }
+
     public PlacingOrder calculateSellStock(Long portfolioId, PlacingOrder placingOrder) {
         Portfolio portfolio = portfolioRepo.findById(portfolioId).orElseThrow(() -> new RuntimeException("Portfolio not found with id: " + portfolioId));
         User user = portfolio.getUser();
@@ -352,6 +359,7 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
         }
         return placingOrder;
     }
+
     public PlacingOrder calculateCoverStock(Long portfolioId, PlacingOrder placingOrder) {
         Portfolio portfolio = portfolioRepo.findById(portfolioId).orElseThrow(() -> new RuntimeException("Portfolio not found with id: " + portfolioId));
         User user = portfolio.getUser();
@@ -404,6 +412,7 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
         }
         return placingOrder;
     }
+
     public PlacingOrder calculateShortStock(Long portfolioId, PlacingOrder placingOrder) {
         Portfolio portfolio = portfolioRepo.findById(portfolioId).orElseThrow(() -> new RuntimeException("Portfolio not found with id: " + portfolioId));
         User user = portfolio.getUser();
@@ -460,6 +469,7 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
     public List<PlacingOrder> getOrdersByPortfolioId(Long portfolioId) {
         return placingOrderRepo.findByPortfolioId(portfolioId);
     }
+
     public List<PlacingOrder> retrieveAllPlacingOrders() {
         return placingOrderRepo.findAll();
     }
@@ -475,6 +485,31 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
     public PlacingOrder modifyPlacingOrder(PlacingOrder placingOrder) {
         return placingOrderRepo.save(placingOrder);
     }
+
+    public PlacingOrder changeStatus(Long orderId, Status newStatus) {
+        Optional<PlacingOrder> orderOptional = placingOrderRepo.findById(orderId);
+        PlacingOrder order = orderOptional.get();
+        Status currentStatus = order.getStatus();
+        if (currentStatus == Status.PENDING) {
+            if (newStatus == Status.CANCELLED) {
+                order.setStatus(newStatus);
+            } else {
+                throw new IllegalStateException("Invalid status change from PENDING.");
+            }
+        } else if (currentStatus == Status.OPEN) {
+            if (newStatus == Status.FILLED || newStatus == Status.CANCELLED) {
+                order.setStatus(newStatus); // Valid transition, update status
+            } else {
+                throw new IllegalStateException("Invalid status change from OPEN.");
+            }
+        } else if (currentStatus == Status.FILLED) {
+            throw new IllegalStateException("Cannot change status of a FILLED order.");
+        } else if (currentStatus == Status.CANCELLED) {
+            throw new IllegalStateException("Cannot change status of a CANCELLED order.");
+        }
+        return placingOrderRepo.save(order);
+    }
+
 
 
 }

@@ -16,7 +16,6 @@ import java.util.Set;
 @RequestMapping("/API")
 @CrossOrigin(origins = "*")
 @AllArgsConstructor
-@SecurityRequirement(name = "bearerAuth")
 public class StockQuoteController {
 
     private final StockQuoteService stockQuoteService;

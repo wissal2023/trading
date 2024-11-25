@@ -13,27 +13,29 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class TransactionServImpl implements ITransactionService {
-
     TransactionRepo transactionRepo;
-    PlacingOrderRepo placingOrderRepo;
-    HoldingRepo holdingRepo;
-
     public List<Transaction> retrieveAllTransactions() {
         return transactionRepo.findAll();
     }
     public Transaction retrieveTransaction(Long transactionId) {
         return transactionRepo.findById(transactionId).get();
     }
+    public List<Transaction> getTransactionsByPortfolioId(Long portfolioId) {
+        return transactionRepo.findByPortfolioId(portfolioId);
+    }
 
-    @Override
+
+
     public void removeTransaction(Long transId) {
-
+        transactionRepo.deleteById(transId);
     }
-
-    @Override
     public Transaction modifyTransaction(Transaction transaction) {
-        return null;
+        return transactionRepo.save(transaction);
     }
+
+
+
+
     /*
     public Transaction addTransaction(Long placingOrderId, Transaction transaction) {
         PlacingOrder placingOrder = placingOrderRepo.findById(placingOrderId).get();

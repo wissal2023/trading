@@ -22,7 +22,6 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping("/user")
 @AllArgsConstructor
-@SecurityRequirement(name = "bearerAuth")
 public class UserController {
 
  

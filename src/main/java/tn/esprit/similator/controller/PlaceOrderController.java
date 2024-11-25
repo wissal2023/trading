@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.similator.entity.PlacingOrder;
+import tn.esprit.similator.entity.Status;
 import tn.esprit.similator.service.IPlacingOrderService;
 
 import java.util.List;
@@ -18,7 +19,6 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping("/placingOrder")
 @Slf4j
-@SecurityRequirement(name = "bearerAuth")
 public class PlaceOrderController {
 
     IPlacingOrderService placingOrderServ;
@@ -75,5 +75,21 @@ public class PlaceOrderController {
         placingOrderServ.removePlacingOrder(placingOrderId);
     }
 
+    @PutMapping("/change-status/{orderId}")
+    public ResponseEntity<PlacingOrder> changeStatus(@PathVariable Long orderId,
+                                                    @RequestParam Status newStatus) {
+        try {
+            PlacingOrder updatedOrder = placingOrderServ.changeStatus(orderId, newStatus);
+            return ResponseEntity.ok(updatedOrder);
+
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(null);  // Return 400 if status change is invalid
+        }
+    }
+
+
 
 }
+
+
+

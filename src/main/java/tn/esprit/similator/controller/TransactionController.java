@@ -15,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/transaction")
 @CrossOrigin(origins = "*")
-@SecurityRequirement(name = "bearerAuth")
 public class TransactionController {
 
     ITransactionService transactionServ;
@@ -29,6 +28,10 @@ public class TransactionController {
     public Transaction retrieveTransaction(@PathVariable("transaction-id") Long transactionId) {
         return transactionServ.retrieveTransaction(transactionId);
 
+    }
+    @GetMapping("/Get-transactions-by-portfolio/{portfolioId}")
+    public List<Transaction> getTransactionsByPortfolio(@PathVariable Long portfolioId) {
+        return transactionServ.getTransactionsByPortfolioId(portfolioId);
     }
 
 /*

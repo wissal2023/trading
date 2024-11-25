@@ -29,7 +29,7 @@ public class Transaction {
     String descp;//describes the nature of the transaction
     Double commiss;
     Double dividende= 0.0;
-    String transactionType;
+    //String transactionType;
     @ManyToOne
     @JsonIgnore
     Portfolio portfolio;

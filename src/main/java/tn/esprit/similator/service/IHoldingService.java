@@ -10,4 +10,5 @@ public interface IHoldingService {
     public Holding addHolding(Holding hold);
     public void removeHolding(Long holdingId);
     public Holding modifyHolding(Holding holding);
+    public List<Holding> getHoldingsByPortfolioId(Long portfolioId);
 }

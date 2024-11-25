@@ -30,7 +30,6 @@ import tn.esprit.similator.service.IUserService;
 @RequiredArgsConstructor
 @Tag(name = "Authentication")
 @CrossOrigin(origins = "*")
-@SecurityRequirement(name = "bearerAuth")
 public class AuthenticationController {
 
     private final AuthenticationService service;

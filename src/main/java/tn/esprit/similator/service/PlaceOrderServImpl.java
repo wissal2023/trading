@@ -33,7 +33,7 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
 
     // scheduler to check the market of the symbol is ope or not = scheduler on the order class
     //@Scheduled(cron = "0 */15 14-21 * * MON-FRI") // Runs every 15 mins between 14:00 and 21:00 (market hours)
-    @Scheduled(cron = "0 10 21 * * ?")
+    @Scheduled(cron = "0 45 18 * * ?")
     public void checkAndExecutePendingOrders() {
         List<PlacingOrder> pendingOrders = placingOrderRepo.findByStatus(Status.PENDING); // Retrieve pending orders
         for (PlacingOrder order : pendingOrders) {

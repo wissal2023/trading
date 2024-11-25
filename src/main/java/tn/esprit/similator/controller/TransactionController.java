@@ -15,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/transaction")
 @CrossOrigin(origins = "*")
-@SecurityRequirement(name = "bearerAuth")
 public class TransactionController {
 
     ITransactionService transactionServ;

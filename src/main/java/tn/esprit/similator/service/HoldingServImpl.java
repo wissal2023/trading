@@ -30,6 +30,9 @@ public class HoldingServImpl implements IHoldingService{
 
     // ----------------------OTHER METHOD -----------------
 
+    public List<Holding> getHoldingsByPortfolioId(Long portfolioId) {
+        return holdingRepo.findByPortfolioId(portfolioId);
+    }
 
 
 }

@@ -12,6 +12,6 @@ public interface HoldingRepo extends JpaRepository<Holding, Long> {
 
     Holding findBySymbolAndPortfolio(String symbol, Portfolio portfolio);
 
-    // List<Holding> findByPortfolioId(Long portfolioId);
+    List<Holding> findByPortfolioId(Long portfolioId);
 
 }

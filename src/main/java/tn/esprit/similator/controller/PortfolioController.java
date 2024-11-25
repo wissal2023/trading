@@ -14,7 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/portfolio")
 @CrossOrigin(origins = "*")
-@SecurityRequirement(name = "bearerAuth")
 public class PortfolioController {
 
     IPortfolioService portfolioServ;

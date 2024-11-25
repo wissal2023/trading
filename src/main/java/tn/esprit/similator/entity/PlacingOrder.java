@@ -31,7 +31,6 @@ public class PlacingOrder {
     String note;
     String param; //$ ou %
     String duration;// daily or untill cancelled
-  
     @Enumerated(EnumType.STRING)
     assetsType assetsType; // Stocks,OPTIONS,Bonds,Commodities,Forex,Mutual_Funds,ETF
     @Enumerated(EnumType.STRING)
@@ -51,13 +50,10 @@ public class PlacingOrder {
     Double contractSize;
     LocalDateTime expiryDate;
     Double nav;
-
     @ManyToOne
     @JsonIgnore
     Portfolio portfolio;
-
     @OneToMany(mappedBy = "placingOrder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     List<Transaction> transactions;
-
 }

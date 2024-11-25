@@ -15,20 +15,21 @@ public class HoldingServImpl implements IHoldingService{
     public List<Holding> retrieveAllHoldings() {
         return holdingRepo.findAll();
     }
-
     public Holding retrieveHolding(Long holdingId) {
         return holdingRepo.findById(holdingId).get();
     }
-
     public Holding addHolding(Holding p) {
         return holdingRepo.save(p);
     }
-
     public void removeHolding(Long holdingId) {
         holdingRepo.deleteById(holdingId);
     }
-
     public Holding modifyHolding(Holding holding) {
         return holdingRepo.save(holding);
     }
+
+    // ----------------------OTHER METHOD -----------------
+
+
+
 }

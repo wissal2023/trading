@@ -1,10 +1,14 @@
 package tn.esprit.similator.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.io.Serializable;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Getter
@@ -13,7 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Holding {
+public class Holding implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -24,7 +28,7 @@ public class Holding {
     Float curntPrice;  // Current market price per share/unit
     Float mktVal;   //  currentPrice * qty
     Date acquisitionDate;// acquired date
-
     @ManyToOne
+    @JsonIgnore
     Portfolio portfolio;
 }

@@ -1,5 +1,3 @@
 package tn.esprit.similator.entity;
 
-public enum Status {
-    OPEN, FILLED, CANCELLED
-}
+public enum Status {PENDING, OPEN, FILLED, CANCELLED}

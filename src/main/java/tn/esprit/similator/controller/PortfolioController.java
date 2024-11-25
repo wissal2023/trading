@@ -1,5 +1,6 @@
 package tn.esprit.similator.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/portfolio")
 @CrossOrigin(origins = "*")
+@SecurityRequirement(name = "bearerAuth")
 public class PortfolioController {
 
     IPortfolioService portfolioServ;
@@ -29,11 +31,6 @@ public class PortfolioController {
         return portfolio;
     }
 
-    @PostMapping("/Add-Portfolio")
-    public Portfolio addPortfolio(@RequestBody Portfolio p) {
-        Portfolio portfolio = portfolioServ.addPortfolio(p);
-        return portfolio;
-    }
     @PutMapping("/modify-portfolio")
     public Portfolio modifyPortfolio(@RequestBody Portfolio p) {
         Portfolio portfolio = portfolioServ.modifyPortfolio(p);
@@ -44,6 +41,8 @@ public class PortfolioController {
     public void removePortfolio(@PathVariable("portfolio-id") Long portfolioId) {
         portfolioServ.removePortfolio(portfolioId);
     }
+
+
     
 
 }

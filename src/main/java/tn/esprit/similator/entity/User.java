@@ -55,8 +55,11 @@ public class User implements UserDetails, Principal {
 
     @ManyToMany(fetch = FetchType.EAGER)
     List<Role> roles;
+
     @OneToOne(cascade = CascadeType.ALL)
+    @ToString.Exclude
     Portfolio portfolio;
+
     @ToString.Exclude
     @ManyToMany(mappedBy = "users")
     private Set<Challenge> challenges;

@@ -1,5 +1,4 @@
 package tn.esprit.similator;
-
 import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
@@ -15,19 +14,14 @@ import tn.esprit.similator.entity.UserRole;
 import tn.esprit.similator.repository.RoleRepository;
 import tn.esprit.similator.repository.UserRepo;
 import org.springframework.scheduling.annotation.EnableScheduling;
-
-
 @EnableScheduling
 @SpringBootApplication
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @EnableAsync
-
 public class similatorApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(similatorApplication.class, args);
 	}
-
 	@Bean
 	public CommandLineRunner runner(RoleRepository roleRepository, UserRepo userRepo, PasswordEncoder passwordEncoder) {
 		return args -> {
@@ -56,5 +50,4 @@ public class similatorApplication {
 			}
 		};
 	}
-
 }

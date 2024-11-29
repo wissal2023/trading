@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -18,12 +19,11 @@ import tn.esprit.similator.entity.EmailTemplateName;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class MailingService {
-
     private final JavaMailSender mailSender;
     private final SpringTemplateEngine templateEngine;
-
     @Async
     public void sendEmail(
                         String to, 
@@ -33,33 +33,26 @@ public class MailingService {
                         String activationCode, 
                         String subject) throws MessagingException 
     {
+        log.info("Preparing to send email to: " + to);
         String templateName;
         if (emailTemplate == null) {
             templateName = "confirm_email";
         } else {
             templateName = emailTemplate.name();
         }
-
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, MULTIPART_MODE_MIXED, UTF_8.name());
-        
         Map<String, Object> properties = new HashMap<>();
         properties.put("username", username);
         properties.put("confirmationUrl", confirmationUrl);
         properties.put("activation_code", activationCode);
-
         Context context = new Context();
         context.setVariables(properties);
-
-        // helper.setFrom("test@gmail.com");
         helper.setTo(to);
         helper.setSubject(subject);
-
         String template = templateEngine.process(templateName, context);
         helper.setText(template, true);
-
         mailSender.send(mimeMessage);
-
+        log.info("Email sent successfully to: " + to);
     }
-    
 }

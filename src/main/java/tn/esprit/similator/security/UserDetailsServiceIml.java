@@ -12,14 +12,11 @@ import tn.esprit.similator.repository.UserRepo;
 @Service
 @RequiredArgsConstructor
 public class UserDetailsServiceIml implements UserDetailsService {
-    
-    private final UserRepo repository;
-
+        private final UserRepo repository;
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
         return repository.findByEmail(userEmail)
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
-    
 }

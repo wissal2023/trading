@@ -24,13 +24,11 @@ import java.util.Optional;
 @AllArgsConstructor
 @Service
 public class PlaceOrderServImpl implements IPlacingOrderService {
-
     PlacingOrderRepo placingOrderRepo;
     PortfolioRepo portfolioRepo;
     TransactionRepo transactionRepository;
     StockQuoteService stockQuoteService;
     HoldingRepo holdingRepo;
-
     // scheduler to check the market of the symbol is ope or not = scheduler on the order class
     //@Scheduled(cron = "0 */15 14-21 * * MON-FRI") // Runs every 15 mins between 14:00 and 21:00 (market hours)
     @Scheduled(cron = "0 45 18 * * ?")
@@ -73,12 +71,10 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
             }
         }
     }
-
     private void updateOrderStatusToFilled(PlacingOrder placingOrder) {
         placingOrder.setStatus(Status.FILLED);
         placingOrderRepo.save(placingOrder); // Update the order status
     }
-
     public PlacingOrder addPlacingOrderBasedOnMarketStatus(Long portfolioId, PlacingOrder placingOrder) {
         // Fetch market info from stockQuoteService
         Map<String, Object> marketInfo = stockQuoteService.searchStockSymbols(placingOrder.getSymbol());
@@ -117,7 +113,6 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
             return addOrderWhenMktClosed(portfolioId, placingOrder);
         }
     }
-
     public PlacingOrder addOrderWhenMktClosed(Long portfolioId, PlacingOrder placingOrder) {
         Portfolio portfolio = portfolioRepo.findById(portfolioId).orElseThrow(() -> new RuntimeException("Portfolio not found with id: " + portfolioId));
         placingOrder.setPortfolio(portfolio);
@@ -168,7 +163,6 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
 
         return placingOrderRepo.save(placingOrder);
     }
-
     public PlacingOrder addOrderWhenMktOpen(Long portfolioId, PlacingOrder placingOrder) {
         Portfolio portfolio = portfolioRepo.findById(portfolioId).orElseThrow(() -> new RuntimeException("Portfolio not found with id: " + portfolioId));
         placingOrder.setPortfolio(portfolio);
@@ -189,7 +183,6 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
 
         return placingOrder;
     }
-
     private Transaction addTransaction(PlacingOrder placingOrder, Double priceMkt, Double commissionRate) {
         Transaction transaction = new Transaction();
         transaction.setPlacingOrder(placingOrder);
@@ -201,11 +194,9 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
 
         return transactionRepository.save(transaction);
     }
-
     private void addOrUpdateHolding(Portfolio portfolio, PlacingOrder placingOrder) {
         // Fetch existing holding for this symbol in the portfolio
         Holding holding = holdingRepo.findBySymbolAndPortfolio(placingOrder.getSymbol(), portfolio);
-
         if (placingOrder.getActionType() == actionType.BUY) {
             if (holding == null) {
                 holding = new Holding();
@@ -238,7 +229,6 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
             holdingRepo.save(holding);
         }
     }
-
     private void updatePortfolioWithOrder(Portfolio portfolio, PlacingOrder placingOrder, Transaction transaction) {
         double totalAmount = transaction.getTotalAmount();
 
@@ -254,7 +244,6 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
             portfolio.setAccVal(portfolio.getAccVal() - totalAmount); // Update total value to reflect sale
         }
     }
-
     public PlacingOrder calculateBuyStock(Long portfolioId, PlacingOrder placingOrder) {
         Portfolio portfolio = portfolioRepo.findById(portfolioId).orElseThrow(() -> new RuntimeException("Portfolio not found with id: " + portfolioId));
         User user = portfolio.getUser();
@@ -307,14 +296,12 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
         }
         return placingOrder;
     }
-
     public PlacingOrder calculateSellStock(Long portfolioId, PlacingOrder placingOrder) {
         Portfolio portfolio = portfolioRepo.findById(portfolioId).orElseThrow(() -> new RuntimeException("Portfolio not found with id: " + portfolioId));
         User user = portfolio.getUser();
         Double commissionRate = user.getCommissionRate();
         Map<String, Object> stockQuote = stockQuoteService.getStockQuote(placingOrder.getSymbol());
         Double priceMkt = Double.valueOf(((Map<String, String>) stockQuote.get("Global Quote")).get("05. price"));
-
         if (placingOrder.getAssetsType() == assetsType.STOCKS && placingOrder.getActionType() == actionType.SELL) {
             if (placingOrder.getOrderType() == orderType.MARKET) {
                 Float totalCost = (float) (placingOrder.getQty() * priceMkt);
@@ -359,14 +346,12 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
         }
         return placingOrder;
     }
-
     public PlacingOrder calculateCoverStock(Long portfolioId, PlacingOrder placingOrder) {
         Portfolio portfolio = portfolioRepo.findById(portfolioId).orElseThrow(() -> new RuntimeException("Portfolio not found with id: " + portfolioId));
         User user = portfolio.getUser();
         Double commissionRate = user.getCommissionRate();
         Map<String, Object> stockQuote = stockQuoteService.getStockQuote(placingOrder.getSymbol());
         Double priceMkt = Double.valueOf(((Map<String, String>) stockQuote.get("Global Quote")).get("05. price"));
-
         if (placingOrder.getAssetsType() == assetsType.STOCKS && placingOrder.getActionType() == actionType.COVER) {
             if (placingOrder.getOrderType() == orderType.MARKET) {
                 Float totalCost = (float) (placingOrder.getQty() * priceMkt);
@@ -384,7 +369,6 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
                     portfolio.setBuyPow(portfolio.getBuyPow() - totalCost);
                     portfolio.setCash(portfolio.getCash() - totalCost);
                     portfolio.setAccVal(portfolio.getAccVal() + totalCost);
-
                     addTransaction(placingOrder, Double.valueOf(placingOrder.getPrice()), commissionRate);
                     addOrUpdateHolding(portfolio, placingOrder);
                 }
@@ -394,7 +378,6 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
                 }
                 placingOrder.setPrice((float) (priceMkt + placingOrder.getStopLoss()));
                 Double lowestPrice = priceMkt;
-
                 // Simulate price tracking loop for covering the short position
                 while (true) {
                     priceMkt = stockQuoteService.getLatestPrice(placingOrder.getSymbol());
@@ -412,14 +395,12 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
         }
         return placingOrder;
     }
-
     public PlacingOrder calculateShortStock(Long portfolioId, PlacingOrder placingOrder) {
         Portfolio portfolio = portfolioRepo.findById(portfolioId).orElseThrow(() -> new RuntimeException("Portfolio not found with id: " + portfolioId));
         User user = portfolio.getUser();
         Double commissionRate = user.getCommissionRate();
         Map<String, Object> stockQuote = stockQuoteService.getStockQuote(placingOrder.getSymbol());
         Double priceMkt = Double.valueOf(((Map<String, String>) stockQuote.get("Global Quote")).get("05. price"));
-
         if (placingOrder.getAssetsType() == assetsType.STOCKS && placingOrder.getActionType() == actionType.SHORT) {
             if (placingOrder.getOrderType() == orderType.MARKET) {
                 Float totalCost = (float) (placingOrder.getQty() * priceMkt);
@@ -436,7 +417,6 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
                     Double totalCost = placingOrder.getQty() * placingOrder.getPrice();
                     portfolio.setCash(portfolio.getCash() + totalCost);
                     portfolio.setAccVal(portfolio.getAccVal() - totalCost);
-
                     addTransaction(placingOrder, Double.valueOf(placingOrder.getPrice()), commissionRate);
                     addOrUpdateHolding(portfolio, placingOrder);
                 }
@@ -446,7 +426,6 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
                 }
                 placingOrder.setPrice((float) (priceMkt - placingOrder.getStopLoss()));
                 Double highestPrice = priceMkt;
-
                 // Simulate price tracking loop for short selling
                 while (true) {
                     priceMkt = stockQuoteService.getLatestPrice(placingOrder.getSymbol());
@@ -464,28 +443,21 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
         }
         return placingOrder;
     }
-
-
     public List<PlacingOrder> getOrdersByPortfolioId(Long portfolioId) {
         return placingOrderRepo.findByPortfolioId(portfolioId);
     }
-
     public List<PlacingOrder> retrieveAllPlacingOrders() {
         return placingOrderRepo.findAll();
     }
-
     public PlacingOrder retrievePlacingOrder(Long placingOrderId) {
         return placingOrderRepo.findById(placingOrderId).get();
     }
-
     public void removePlacingOrder(Long placingOrderId) {
         placingOrderRepo.deleteById(placingOrderId);
     }
-
     public PlacingOrder modifyPlacingOrder(PlacingOrder placingOrder) {
         return placingOrderRepo.save(placingOrder);
     }
-
     public PlacingOrder changeStatus(Long orderId, Status newStatus) {
         Optional<PlacingOrder> orderOptional = placingOrderRepo.findById(orderId);
         PlacingOrder order = orderOptional.get();
@@ -510,6 +482,6 @@ public class PlaceOrderServImpl implements IPlacingOrderService {
         return placingOrderRepo.save(order);
     }
 
-
+//
 
 }

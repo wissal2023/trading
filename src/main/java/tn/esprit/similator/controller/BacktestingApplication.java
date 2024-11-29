@@ -1,17 +1,10 @@
 package tn.esprit.similator.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.server.ResponseStatusException;
 import tn.esprit.similator.entity.*;
 import tn.esprit.similator.repository.*;
@@ -21,9 +14,7 @@ import tn.esprit.similator.service.StrategyFactory;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
-@SpringBootApplication
 @RestController
 @RequestMapping("/api")
 public class BacktestingApplication {
@@ -39,46 +30,8 @@ public class BacktestingApplication {
   @Autowired
   private UserRepo userRepository;
 
-  public static void main(String[] args) {
-    SpringApplication.run(BacktestingApplication.class, args);
-  }
 
-  @Bean
-  public CorsFilter corsFilter() {
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    CorsConfiguration config = new CorsConfiguration();
-    config.setAllowCredentials(true);
-    config.addAllowedOrigin("http://localhost:4200");
-    config.addAllowedHeader("*");
-    config.addAllowedMethod("*");
-    source.registerCorsConfiguration("/**", config);
-    return new CorsFilter(source);
-  }
-
-  // User Management Endpoints
-  @PostMapping("/register")
-  public ResponseEntity<User> register(@RequestBody LoginRequest request) {
-    if (userRepository.findByFullname(request.getUsername()).isPresent()) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists");
-    }
-
-    User user = new User(request.getUsername(), request.getPassword());
-    return ResponseEntity.ok(userRepository.save(user));
-  }
-
-  @PostMapping("/login")
-  public ResponseEntity<User> login(@RequestBody LoginRequest request) {
-    User user = userRepository.findByFullname(request.getUsername())
-      .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
-
-    if (!user.getPassword().equals(request.getPassword())) {
-      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid password");
-    }
-
-    return ResponseEntity.ok(user);
-  }
-
-  // Backtest Endpoints
+  
   @PostMapping("/backtest")
   public BacktestResult runBacktest(@RequestBody BacktestRequest request, @RequestParam Long userId) {
     try {

@@ -18,18 +18,19 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
-
     private final JwtFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
-
     @Bean
     public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
         http
             .cors(withDefaults())
             .csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(req -> 
+            .authorizeHttpRequests(req ->
                     req.requestMatchers(
-                        "/auth/**",
+                                    "/home/auth/register", // Allow registration without JWT
+                                    "/home/auth/authenticate", // Allow login without JWT
+                                    "/home/auth/activate-account", // Allow account activation without JWT
+                        "/**",
                         "/v2/api-docs",
                         "/v3/api-docs",
                         "/v3/api-docs/**",
@@ -47,8 +48,6 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
             .authenticationProvider(authenticationProvider)
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
-    
 }

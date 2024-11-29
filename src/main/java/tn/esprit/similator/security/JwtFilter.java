@@ -3,6 +3,8 @@ package tn.esprit.similator.security;
 import java.io.IOException;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,13 +21,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
-
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
-
-
     @Override
     protected void doFilterInternal(
         @NonNull HttpServletRequest request, 
@@ -33,8 +33,8 @@ public class JwtFilter extends OncePerRequestFilter {
         @NonNull FilterChain filterChain 
         )
         throws ServletException, IOException {
-            System.out.println(request.getServletPath());
-            if (request.getServletPath().contains("/home/auth")) {
+            log.info(request.getServletPath());
+            if (request.getServletPath().contains("/home/auth/")) {
                 filterChain.doFilter(request, response);
                 return;
             }
@@ -46,7 +46,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 return;
             }
             jwt = authHeader.substring(7);
-            System.out.println(jwt);
+            log.info(jwt);
             userEmail = jwtService.extractUsername(jwt);
             if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
@@ -63,6 +63,4 @@ public class JwtFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(request, response);
     }
-
-    
 }

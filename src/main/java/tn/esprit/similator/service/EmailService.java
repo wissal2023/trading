@@ -11,13 +11,11 @@ public class EmailService {
 
     @Autowired
     private JavaMailSender mailSender;
-
     public void sendConfirmationEmail(User user) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(user.getEmail());
         message.setSubject("Confirm your email");
         message.setText("Click the link to confirm your registration: ...");
-
         mailSender.send(message);
     }
 }

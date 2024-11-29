@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,9 +26,9 @@ import tn.esprit.similator.repository.UserRepo;
 import tn.esprit.similator.security.JwtService;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class AuthenticationService {
-
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserRepo userRepository;
@@ -37,18 +38,14 @@ public class AuthenticationService {
     private final MailingService emailService;
     @Value("${application.mailing.frontend.activation-url}")
     private String activationUrl;
-
     public void register(RegistrationRequest request) throws MessagingException {
-
-        // Assign a default role: UserRole
+        try {
         var userRole = roleRepository.findByName(UserRole.CUSTOMER.name())
                 .orElseThrow(() -> new IllegalStateException("ROLE CUSTOMER was not initialized"));
-
-        // Create a new portfolio for the user
+       // Create a new portfolio for the user
         Portfolio portfolio = new Portfolio();
         portfolio.setTotVal(100000.00); // Initial total value for the portfolio
         portfolio.setDateCreated(new Date());
-
         // Create User object and link the portfolio
         var user = User.builder()
                 .fullname(request.getUsername())
@@ -59,23 +56,24 @@ public class AuthenticationService {
                 .roles(List.of(userRole))
                 .portfolio(portfolio) // Assign portfolio to the user
                 .build();
-
-        // Save the user (this will also save the portfolio if cascade is set)
-        userRepository.save(user);
-
-        // Send validation email
-        sendValidationEmail(user);
+        userRepository.save(user);// Save the user (this will also save the portfolio if cascade is set)
+        sendValidationEmail(user); // Send validation email
+        } catch (Exception e) {
+            log.error("Registration failed: ", e);
+            throw e; // Or handle it as needed
+        }
     }
-
     private void sendValidationEmail(User user) throws MessagingException {
+        log.info("Sending validation email to: " + user.getEmail());
         var newToken = generateAndSaveActivationToken(user);
+        log.info("Generated activation token: " + newToken);
         emailService.sendEmail(
-                        user.getEmail(), 
-                        user.getFullname(), 
-                        EmailTemplateName.ACTIVATE_ACCOUNT, 
-                        activationUrl, 
-                        newToken, 
-                        "Account activation");
+                user.getEmail(),
+                user.getFullname(),
+                EmailTemplateName.ACTIVATE_ACCOUNT,
+                activationUrl,
+                newToken,
+                "Account activation");
     }
     private String generateAndSaveActivationToken(User user) {
         String generatedToken = generateActivationCode(6);
@@ -88,24 +86,21 @@ public class AuthenticationService {
         tokenRepository.save(token);
         return generatedToken;
     }
-
     private String generateActivationCode(int length) {
         String characters = "0123456789";
         StringBuilder codeBuilder = new StringBuilder();
         SecureRandom secureRandom = new SecureRandom();
-
         for (int i = 0; i < length; i++) {
             int randomIndex = secureRandom.nextInt(characters.length()); // random index from 0 to 9
             codeBuilder.append(characters.charAt(randomIndex));
         }
-
         return codeBuilder.toString();
     }
-
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
+        log.debug("Attempting to authenticate user: {}", request.getEmail());
         var auth = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
-                request.getEmail(), 
+                request.getEmail(),
                 request.getPassword()
                 ));
         var claims = new HashMap<String, Object>();
@@ -119,10 +114,7 @@ public class AuthenticationService {
                                         .token(jwtToken)
                                         .build();
 
-
     }
-
-    // @Transactional
     public void activateAccount(String token) throws MessagingException {
         Token savedToken = tokenRepository.findByToken(token).orElseThrow(() -> new RuntimeException("Invalid token"));
         if(LocalDateTime.now().isAfter(savedToken.getExpiredAt())) {
@@ -136,4 +128,18 @@ public class AuthenticationService {
         savedToken.setValidatedAt(LocalDateTime.now());
         tokenRepository.save(savedToken);
     }
+
+
+
+    //    private void sendValidationEmail(User user) throws MessagingException {
+//        var newToken = generateAndSaveActivationToken(user);
+//        emailService.sendEmail(
+//                        user.getEmail(),
+//                        user.getFullname(),
+//                        EmailTemplateName.ACTIVATE_ACCOUNT,
+//                        activationUrl,
+//                        newToken,
+//                        "Account activation");
+//    }
 }
+

@@ -32,8 +32,10 @@ public class Portfolio {
     Double tdyChange=0.0;  // Gains/losses as a result of today's market activity
     Double annReturn=0.0;  // Percentage return extrapolated for a year
     Double totGainLoss=0.0; // Total gain/loss percentage
+
     @OneToOne(mappedBy = "portfolio", cascade = CascadeType.ALL)
     @JsonIgnore
+    @ToString.Exclude
     User user;
 
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

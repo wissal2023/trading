@@ -3,6 +3,7 @@ package tn.esprit.similator.controller;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,8 @@ import tn.esprit.similator.dtos.AuthenticationResponse;
 import tn.esprit.similator.dtos.PasswordVerificationRequest;
 import tn.esprit.similator.dtos.RegistrationRequest;
 import tn.esprit.similator.entity.User;
+import tn.esprit.similator.security.JwtService;
+import tn.esprit.similator.security.UserDetailsServiceIml;
 import tn.esprit.similator.service.AuthenticationService;
 import tn.esprit.similator.service.IUserService;
 
@@ -33,6 +36,8 @@ import tn.esprit.similator.service.IUserService;
 public class AuthenticationController {
 
     private final AuthenticationService service;
+    JwtService jwtService;
+    UserDetailsServiceIml userDetailsService;
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.ACCEPTED)

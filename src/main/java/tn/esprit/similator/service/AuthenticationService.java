@@ -9,6 +9,7 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,6 +26,7 @@ import tn.esprit.similator.repository.TokenRepository;
 import tn.esprit.similator.repository.UserRepo;
 import tn.esprit.similator.security.JwtService;
 
+//package tn.esprit.similator.service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -40,7 +42,8 @@ public class AuthenticationService {
     private String activationUrl;
     public void register(RegistrationRequest request) throws MessagingException {
         try {
-        var userRole = roleRepository.findByName(UserRole.CUSTOMER.name())
+            log.info("Registering user: {}", request.getEmail());
+            var userRole = roleRepository.findByName(UserRole.CUSTOMER.name())
                 .orElseThrow(() -> new IllegalStateException("ROLE CUSTOMER was not initialized"));
        // Create a new portfolio for the user
         Portfolio portfolio = new Portfolio();
@@ -98,6 +101,7 @@ public class AuthenticationService {
     }
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         log.debug("Attempting to authenticate user: {}", request.getEmail());
+        try {
         var auth = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                 request.getEmail(),
@@ -113,8 +117,13 @@ public class AuthenticationService {
                                         .user(user)
                                         .token(jwtToken)
                                         .build();
+        } catch (BadCredentialsException e) {
+            log.error("Authentication failed for user: {}", request.getEmail(), e);
+            throw new RuntimeException("Invalid credentials", e);
+        }
 
     }
+
     public void activateAccount(String token) throws MessagingException {
         Token savedToken = tokenRepository.findByToken(token).orElseThrow(() -> new RuntimeException("Invalid token"));
         if(LocalDateTime.now().isAfter(savedToken.getExpiredAt())) {
@@ -128,18 +137,5 @@ public class AuthenticationService {
         savedToken.setValidatedAt(LocalDateTime.now());
         tokenRepository.save(savedToken);
     }
-
-
-
-    //    private void sendValidationEmail(User user) throws MessagingException {
-//        var newToken = generateAndSaveActivationToken(user);
-//        emailService.sendEmail(
-//                        user.getEmail(),
-//                        user.getFullname(),
-//                        EmailTemplateName.ACTIVATE_ACCOUNT,
-//                        activationUrl,
-//                        newToken,
-//                        "Account activation");
-//    }
 }
 

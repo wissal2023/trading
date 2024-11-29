@@ -20,6 +20,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
+//package tn.esprit.similator.security;
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -33,11 +34,13 @@ public class JwtFilter extends OncePerRequestFilter {
         @NonNull FilterChain filterChain 
         )
         throws ServletException, IOException {
-            log.info(request.getServletPath());
-            if (request.getServletPath().contains("/home/auth/")) {
-                filterChain.doFilter(request, response);
-                return;
-            }
+        String path = request.getServletPath();
+        log.info(request.getServletPath());
+        // Correct the path to match the actual request
+        if (path.equals("/auth/register") || path.equals("/auth/authenticate") || path.equals("/auth/activate-account")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
             final String authHeader = request.getHeader(AUTHORIZATION);
             final String jwt;
             final String userEmail;

@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +17,6 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
 @Service
-@Slf4j
 public class JwtService {
     @Value("${application.security.jwt.expiration}")
     private long jwtExpiration;
@@ -37,13 +35,6 @@ public class JwtService {
             Map<String, Object> extraClaims,
             UserDetails userDetails,
             long expiration) {
-        long currentTimeMillis = System.currentTimeMillis();
-        Date issuedAt = new Date(currentTimeMillis);
-        Date expirationDate = new Date(currentTimeMillis + expiration);
-
-        log.info("Token issued at: {}", issuedAt);
-        log.info("Token expiration at: {}", expirationDate);
-
         var authorities = userDetails.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
@@ -52,8 +43,8 @@ public class JwtService {
                 .builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
-                .setIssuedAt(issuedAt)
-                .setExpiration(expirationDate)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + expiration)) // Set expiration
                 .claim("authorities", authorities)
                 .signWith(getSignInKey())
                 .compact();

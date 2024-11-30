@@ -8,6 +8,7 @@ import tn.esprit.similator.entity.Role;
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
     Optional<Role> findByName(String roleName);
+
     
 }
 

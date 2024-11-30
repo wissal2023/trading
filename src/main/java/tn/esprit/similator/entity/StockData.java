@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StockData implements Comparable<StockData> {
+
   private LocalDate date;
   private double openPrice;
   private double highPrice;

@@ -17,6 +17,7 @@ import java.util.Set;
 @Getter
 @Setter
 public class Challenge {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

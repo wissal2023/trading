@@ -24,7 +24,6 @@ import java.util.List;
 @AllArgsConstructor
 public class UserController {
 
- 
     @Autowired
     private IUserService userServ;
     private PasswordEncoder passwordEncoder;

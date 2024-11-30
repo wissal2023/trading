@@ -15,6 +15,7 @@ import java.util.List;
 @Entity
 @Table(name = "backtest_results")
 public class BacktestResult {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

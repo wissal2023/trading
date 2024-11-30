@@ -22,6 +22,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 @Slf4j
 @RequiredArgsConstructor
 public class MailingService {
+
     private final JavaMailSender mailSender;
     private final SpringTemplateEngine templateEngine;
     @Async

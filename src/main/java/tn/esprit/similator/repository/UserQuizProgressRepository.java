@@ -13,4 +13,5 @@ import java.util.Optional;
 public interface UserQuizProgressRepository extends JpaRepository<UserQuizProgress, Long> {
   List<UserQuizProgress> findByUser(User user);
   Optional<UserQuizProgress> findByUserAndQuiz(User user, Quiz quiz);
+
 }

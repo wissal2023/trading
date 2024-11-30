@@ -7,4 +7,5 @@ import tn.esprit.similator.entity.Challenge;
 @Repository
 
 public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
+
 }

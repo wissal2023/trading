@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @ToString
 public class UserQuizProgress {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

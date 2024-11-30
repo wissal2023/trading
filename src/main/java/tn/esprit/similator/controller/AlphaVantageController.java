@@ -10,6 +10,7 @@ import tn.esprit.similator.service.AlphaVantageService;
 @RequestMapping("/api")
 public class AlphaVantageController {
 
+
     private final AlphaVantageService alphaVantageService;
 
     public AlphaVantageController(AlphaVantageService earningsCalendarService) {

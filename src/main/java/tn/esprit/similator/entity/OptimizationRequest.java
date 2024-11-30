@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OptimizationRequest {
+
   private String symbol;
   private LocalDate startDate;
   private LocalDate endDate;

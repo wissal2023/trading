@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class StrategyOptimizer {
+
   private final List<StockData> stockDataList;
   private final String strategyType;
   private final OptimizationPreferences preferences;

@@ -16,6 +16,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class PortfolioController {
 
+
     IPortfolioService portfolioServ;
     
     @GetMapping("/Get-all-portfolios")

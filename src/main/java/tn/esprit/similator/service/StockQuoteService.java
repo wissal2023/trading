@@ -18,6 +18,7 @@ import java.util.Map;
 @Service
 @Slf4j
 public class StockQuoteService {
+
     @Value("${alphavantage.api.key}")
     private String API_KEY;
     private static final String ALPHA_VANTAGE_URL = "https://www.alphavantage.co/query";

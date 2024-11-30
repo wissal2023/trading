@@ -5,6 +5,7 @@ import tn.esprit.similator.entity.User;
 import java.util.List;
 
 public interface IUserService {
+
     List<User> retrieveAllUsers();
     User retrieveUser(Long userId);
     //User addUserAndAssignPortfolio(User user);

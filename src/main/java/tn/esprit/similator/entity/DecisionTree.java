@@ -3,6 +3,7 @@ package tn.esprit.similator.entity;
 import java.util.*;
 
 public class DecisionTree {
+
   private Node root;
   private final int maxDepth;
   private final int numFeatures;

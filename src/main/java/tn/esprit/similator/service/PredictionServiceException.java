@@ -1,6 +1,7 @@
 package tn.esprit.similator.service;
 
 public class PredictionServiceException extends RuntimeException {
+
   public PredictionServiceException(String message) {
     super(message);
   }

@@ -40,6 +40,7 @@ public class User implements UserDetails, Principal {
     @Column(nullable = false)
     String password;
 
+
     private Double rank;
     private boolean accountLocked;
     private boolean enabled;

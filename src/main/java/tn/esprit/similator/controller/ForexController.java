@@ -8,6 +8,7 @@ import tn.esprit.similator.service.ForexScrapingService;
 @RestController
 @RequestMapping("/api/forex")
 public class ForexController {
+
     private final ForexScrapingService scrapingService;
 
     public ForexController(ForexScrapingService scrapingService) {

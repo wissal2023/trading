@@ -18,6 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class StockQuoteController {
 
+
     private final StockQuoteService stockQuoteService;
 
     //get the stock data

@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class PricePredictionService {
+
+
   private static final int MIN_TRAINING_DAYS = 60; // Reduced from 252 to allow for shorter training periods
   private static final int PREFERRED_TRAINING_DAYS = 252; // Keep track of the ideal period
   private static final int MIN_TECHNICAL_ANALYSIS_DAYS = 50;

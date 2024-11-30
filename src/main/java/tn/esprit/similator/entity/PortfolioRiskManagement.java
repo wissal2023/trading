@@ -2,6 +2,7 @@ package tn.esprit.similator.entity;
 
 public class PortfolioRiskManagement {
 
+
     private static final double MAX_PORTFOLIO_RISK = 0.05;  // Maximum risk tolerance (5% of portfolio value)
     private static final double MAX_POSITION_SIZE = 0.1;  // Maximum position size (10% of portfolio value)
     private static final double MAX_DRAWDOWN = 0.2;  // Maximum allowable drawdown (20%)

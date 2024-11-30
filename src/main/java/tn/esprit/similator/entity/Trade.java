@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "trades")
 public class Trade {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -22,10 +23,12 @@ public class Trade {
   private String action;
   private int shares;
   private double price;
+
   public Trade(LocalDate date, String action, int shares, double price) {
     this.date = date;
     this.action = action;
     this.shares = shares;
     this.price = price;
+
   }
 }

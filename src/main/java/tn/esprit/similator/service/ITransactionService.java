@@ -5,6 +5,7 @@ import tn.esprit.similator.entity.Transaction;
 import java.util.List;
 
 public interface ITransactionService {
+
     public List<Transaction> retrieveAllTransactions();
     public Transaction retrieveTransaction(Long transId);
     //public Transaction addTransaction(Long placingOrderId, Transaction transaction);

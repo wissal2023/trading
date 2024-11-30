@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SMACrossoverStrategy implements Strategy {
+
   private final int shortTermDays;
   private final int longTermDays;
 

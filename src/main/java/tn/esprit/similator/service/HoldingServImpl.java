@@ -11,6 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 public class HoldingServImpl implements IHoldingService{
 
+
+
     HoldingRepo holdingRepo;
     public List<Holding> retrieveAllHoldings() {
         return holdingRepo.findAll();

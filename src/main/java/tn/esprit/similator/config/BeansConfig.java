@@ -21,6 +21,7 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 @RequiredArgsConstructor
 public class BeansConfig {
+
     private final UserDetailsService userDetailsService;
     @Bean
     public AuthenticationProvider authenticationProvider() {

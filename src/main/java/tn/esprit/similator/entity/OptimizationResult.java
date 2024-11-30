@@ -12,6 +12,7 @@ import java.util.Map;
 @Setter
 @AllArgsConstructor
 public class OptimizationResult {
+
   Map<String, Object> parameters;
   double performance;
 }

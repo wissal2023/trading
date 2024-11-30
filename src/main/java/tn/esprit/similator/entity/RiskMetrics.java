@@ -4,6 +4,7 @@ import lombok.Value;
 
 @Value
 public class RiskMetrics {
+
   double volatility;          // Annualized volatility
   double valueAtRisk;         // 95% VaR
   double maxDrawdown;         // Maximum drawdown percentage

@@ -14,6 +14,8 @@ import java.io.IOException;
 @RequestMapping("/api/forex")
 @CrossOrigin(origins = "http://localhost:4200")
 public class ForexScrapingService {
+
+
     public String scrapeForexData() {
         try {
             Document doc = Jsoup.connect("https://www.forex.com/en/market-analysis/latest-research/").get();

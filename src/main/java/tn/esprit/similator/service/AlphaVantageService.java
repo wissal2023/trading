@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class AlphaVantageService {
 
+
     @Value("${alphavantage.api.key}")
     private String apiKey = "2JRL4MNXP4NW5L3Q";
 

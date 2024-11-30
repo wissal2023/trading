@@ -7,6 +7,7 @@ import java.util.Map;
 
 @Data
 public class ParameterSet {
+
   private Map<String, Object> parameters = new HashMap<>();
   public ParameterSet add(String key, Object value) {
     parameters.put(key, value);

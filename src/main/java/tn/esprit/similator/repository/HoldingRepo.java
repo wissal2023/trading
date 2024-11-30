@@ -14,4 +14,5 @@ public interface HoldingRepo extends JpaRepository<Holding, Long> {
 
     List<Holding> findByPortfolioId(Long portfolioId);
 
+
 }

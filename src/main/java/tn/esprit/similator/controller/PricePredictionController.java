@@ -22,6 +22,7 @@ import java.time.LocalDate;
 @Slf4j
 public class PricePredictionController {
 
+
   @Autowired
   private PricePredictionService pricePredictionService;
 

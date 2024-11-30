@@ -20,6 +20,7 @@ import java.util.ArrayList;
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PlacingOrder {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;

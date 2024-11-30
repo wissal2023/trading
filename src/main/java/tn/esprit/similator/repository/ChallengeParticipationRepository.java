@@ -16,4 +16,6 @@ public interface ChallengeParticipationRepository extends JpaRepository<Challeng
 
     // Optionnel : Vous pouvez ajouter d'autres méthodes selon vos besoins
 
+
+
 }

@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
+
   @ExceptionHandler(PredictionServiceException.class)
   public ResponseEntity<ErrorResponse> handlePredictionServiceException(
     PredictionServiceException ex, WebRequest request) {

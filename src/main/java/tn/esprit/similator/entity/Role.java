@@ -29,6 +29,7 @@ import lombok.Setter;
 @EntityListeners(AuditingEntityListener.class)
 public class Role {
 
+
     @Id
     @GeneratedValue
     private Long id;

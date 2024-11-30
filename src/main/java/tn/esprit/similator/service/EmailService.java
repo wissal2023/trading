@@ -9,6 +9,7 @@ import tn.esprit.similator.entity.User;
 @Service
 public class EmailService {
 
+
     @Autowired
     private JavaMailSender mailSender;
     public void sendConfirmationEmail(User user) {

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 class RSIStrategy implements Strategy {
+
   private final int period;
   private final double oversoldThreshold;
   private final double overboughtThreshold;

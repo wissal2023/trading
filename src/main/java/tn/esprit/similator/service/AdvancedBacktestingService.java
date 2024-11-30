@@ -15,6 +15,8 @@ import tn.esprit.similator.entity.Trade;
 public class AdvancedBacktestingService {
   private static final Logger logger = LoggerFactory.getLogger(AdvancedBacktestingService.class);
 
+
+
   @Data
   public static class BacktestMetrics {
     private double totalReturn;

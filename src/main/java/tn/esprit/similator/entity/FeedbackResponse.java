@@ -11,6 +11,7 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FeedbackResponse {
+
   private String overallAssessment;
   private List<String> recommendations;
   private Map<String, String> metricAnalysis;

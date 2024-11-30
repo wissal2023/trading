@@ -11,4 +11,5 @@ import java.util.List;
 public interface PortfolioRepo extends JpaRepository<Portfolio, Long> {
 
 
+
 }

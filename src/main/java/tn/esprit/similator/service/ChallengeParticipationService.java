@@ -13,6 +13,7 @@ import java.util.List;
 @Service
 public class ChallengeParticipationService {
 
+
     private final ChallengeParticipationRepository challengeParticipationRepository;
     private final ChallengeRepository challengeRepository;
     private final UserRepo userRepository;

@@ -11,4 +11,5 @@ import java.util.List;
 @Repository
 public interface BacktestRequestRepository extends JpaRepository<BacktestRequest, Long> {
   List<BacktestRequest> findByUser(User user);
+
 }

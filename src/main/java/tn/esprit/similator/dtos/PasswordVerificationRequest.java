@@ -9,6 +9,7 @@ import lombok.Setter;
 @Builder
 public class PasswordVerificationRequest {
 
+
     private Long userId;
 
     private String typedPassword;

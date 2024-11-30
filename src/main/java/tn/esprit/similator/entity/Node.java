@@ -2,6 +2,7 @@ package tn.esprit.similator.entity;
 import java.util.*;
 
 class Node {
+
   private boolean isLeaf;
   private int prediction;
   private int featureIndex;

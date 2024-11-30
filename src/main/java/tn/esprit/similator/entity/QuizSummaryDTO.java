@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class QuizSummaryDTO {
+
   private int totalQuizzesTaken;
   private int totalPointsEarned;
   private int correctAnswers;

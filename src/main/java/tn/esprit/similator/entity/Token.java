@@ -21,6 +21,7 @@ import lombok.Setter;
 @Entity
 public class Token {
 
+
     @Id
     @GeneratedValue
     private Long id;

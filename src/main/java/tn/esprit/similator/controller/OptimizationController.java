@@ -22,6 +22,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 @Slf4j
 public class OptimizationController {
+
   @Autowired
   private UserRepo userRepository;
   @PostMapping("/optimize")

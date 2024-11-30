@@ -10,6 +10,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ChallengeService {
+
     private ChallengeRepository challengeRepository;
 
     public Challenge createChallenge(Challenge challenge) {

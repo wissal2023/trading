@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class QuizService {
+
   @Autowired
   private QuizRepository quizRepository;
 

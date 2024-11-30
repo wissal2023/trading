@@ -1,6 +1,7 @@
 package tn.esprit.similator.entity;
 
 public class QuizResponse {
+
   private boolean correct;
   private String explanation;
   private int pointsEarned;

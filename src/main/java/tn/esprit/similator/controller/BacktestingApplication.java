@@ -24,6 +24,7 @@ public class BacktestingApplication {
   @Autowired
   private BacktestRequestRepository backtestRequestRepository;
 
+
   @Autowired
   private BacktestResultRepository backtestResultRepository;
 

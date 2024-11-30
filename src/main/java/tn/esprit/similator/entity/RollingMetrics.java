@@ -8,6 +8,7 @@ import java.util.Map;
 
 @Value
 public  class RollingMetrics {
+
   List<LocalDate> dates;
   List<Double> returns;
   List<Double> volatilities;

@@ -9,6 +9,7 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 public class OptimizationPreferences {
+
   private double volatilityThreshold = 0.3;
   private double maxDrawdownThreshold = 0.2;
   private double minSharpeRatio = 1.0;

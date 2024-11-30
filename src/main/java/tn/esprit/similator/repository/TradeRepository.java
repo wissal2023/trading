@@ -5,4 +5,6 @@ import org.springframework.stereotype.Repository;
 import tn.esprit.similator.entity.Trade;
 
 @Repository
-public interface TradeRepository extends JpaRepository<Trade, Long> {}
+public interface TradeRepository extends JpaRepository<Trade, Long> {
+
+}

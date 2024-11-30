@@ -5,4 +5,8 @@ import org.springframework.stereotype.Repository;
 import tn.esprit.similator.entity.BacktestResult;
 
 @Repository
-public interface BacktestResultRepository extends JpaRepository<BacktestResult, Long> {}
+public interface BacktestResultRepository extends JpaRepository<BacktestResult, Long> {
+
+
+}
+

@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "backtest_requests")
 public class BacktestRequest {
+  
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

@@ -11,6 +11,7 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PredictionResponse {
+
   private String symbol;
   private LocalDate predictionDate;  // Current date
   private LocalDate targetDate;      // Future date we're predicting for

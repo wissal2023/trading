@@ -8,6 +8,7 @@ import java.util.Map;
 
 @Value
 public  class VolumeMetrics {
+
   double averageVolume;
   double volumeVolatility;
   double volumeTrend;

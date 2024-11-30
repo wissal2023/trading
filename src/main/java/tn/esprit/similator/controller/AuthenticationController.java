@@ -35,6 +35,7 @@ import tn.esprit.similator.service.IUserService;
 @CrossOrigin(origins = "*")
 public class AuthenticationController {
 
+
     private final AuthenticationService service;
     JwtService jwtService;
     UserDetailsServiceIml userDetailsService;

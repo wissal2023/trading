@@ -12,6 +12,7 @@ import tn.esprit.similator.repository.UserRepo;
 @Service
 @RequiredArgsConstructor
 public class UserDetailsServiceIml implements UserDetailsService {
+
         private final UserRepo repository;
     @Override
     @Transactional

@@ -9,6 +9,7 @@ import tn.esprit.similator.entity.User;
 @Setter
 @Builder
 public class AuthenticationResponse {
+
     private User user;
     private String token;
 

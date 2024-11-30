@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VolatilityBreakoutStrategy implements Strategy {
+
   private final int period;
   private final double multiplier;
 

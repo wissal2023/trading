@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class Quiz {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

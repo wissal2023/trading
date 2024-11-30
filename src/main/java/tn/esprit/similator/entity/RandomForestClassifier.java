@@ -9,6 +9,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class RandomForestClassifier {
+
   private int numTrees = 100;
   private int maxDepth = 10;
   private int numFeatures;

@@ -22,6 +22,7 @@ public class AdvancedBacktestingController {
   @Autowired
   private AdvancedBacktestingService backtestingService;
 
+
   @Autowired
   private BacktestingApplication backtestingApplication;
 

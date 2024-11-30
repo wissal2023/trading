@@ -1,6 +1,7 @@
 package tn.esprit.similator.service;
 
 public class StrategyFactory {
+
   public static Strategy getStrategy(String strategyName) {
     switch (strategyName) {
       case "SMAConservative":

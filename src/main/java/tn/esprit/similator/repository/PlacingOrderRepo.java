@@ -12,4 +12,5 @@ public interface PlacingOrderRepo extends JpaRepository<PlacingOrder, Long> {
 
     List<PlacingOrder> findByStatus (Status status);
     List<PlacingOrder> findByPortfolioId(Long portfolioId);
+
 }

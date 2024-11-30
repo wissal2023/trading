@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class QuizDTO {
+
   private Long id;
   private String question;
   private List<String> options;

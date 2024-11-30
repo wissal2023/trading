@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class RiskAnalyzer {
+
   private final List<StockData> stockData;
   private final double annualRiskFreeRate;
 

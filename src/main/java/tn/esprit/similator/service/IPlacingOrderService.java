@@ -7,6 +7,7 @@ import tn.esprit.similator.entity.Status;
 import java.util.List;
 
 public interface IPlacingOrderService {
+
     public void checkAndExecutePendingOrders();
     public PlacingOrder addPlacingOrderBasedOnMarketStatus(Long portfolioId, PlacingOrder placingOrder);
 

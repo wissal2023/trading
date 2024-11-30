@@ -12,6 +12,7 @@ import java.util.List;
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FinancialNews {
+
     private String date;
     private String title;
     private String content;

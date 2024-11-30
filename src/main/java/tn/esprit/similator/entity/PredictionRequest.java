@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PredictionRequest {
+
   @NotNull
   @Size(min = 1, max = 10)
   private String symbol;

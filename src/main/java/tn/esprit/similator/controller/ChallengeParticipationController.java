@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/challenge-participation")
 public class ChallengeParticipationController {
+
     private ChallengeParticipationService participationService;
 
 

@@ -10,6 +10,7 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 public class OptimizationResponse {
+
   Map<String, Object> parameters;
   Map<String, Double> performanceMetrics;
   Map<String, Double> marketConditions;

@@ -17,6 +17,7 @@ import java.util.List;
 
 @RequestMapping("/api/challenges")
 public class ChallengeController {
+
     @Autowired
     private ChallengeService challengeService;
     ChallengeParticipationService challengeParticipationService;

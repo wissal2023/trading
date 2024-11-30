@@ -31,6 +31,7 @@ import tn.esprit.similator.security.JwtService;
 @Slf4j
 @RequiredArgsConstructor
 public class AuthenticationService {
+
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserRepo userRepository;

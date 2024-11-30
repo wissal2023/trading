@@ -10,10 +10,12 @@
     </parent>
     <groupId>tn.esprit</groupId>
 
+
     <artifactId>Similator</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Similator</name>
     <description>Similator</description>
+
 
 
 
@@ -53,6 +55,7 @@
         </dependency>
 
         <dependency>
+
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
@@ -77,10 +80,16 @@
 
 
         <dependency>
+
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -91,6 +100,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
 
 
 
@@ -136,8 +146,8 @@
 		</dependency>
 
 
+>>>>>>> 3538263b797205e05fc7aaeb9fc0a069e77d3314
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -154,5 +164,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

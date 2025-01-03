@@ -42,7 +42,7 @@ public class PolicyService {
         // Update fields
         existingPolicy.setName(updatedPolicy.getName());
         existingPolicy.setDescription(updatedPolicy.getDescription());
-        existingPolicy.setPremium(updatedPolicy.getPremium());
+        existingPolicy.setPrime(updatedPolicy.getPrime());
         existingPolicy.setCoverageDetails(updatedPolicy.getCoverageDetails());
         existingPolicy.setConditions(updatedPolicy.getConditions());
         existingPolicy.setDurationInDays(updatedPolicy.getDurationInDays());

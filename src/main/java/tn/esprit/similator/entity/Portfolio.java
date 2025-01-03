@@ -1,9 +1,11 @@
 package tn.esprit.similator.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -39,5 +41,10 @@ public class Portfolio {
     @OneToMany(mappedBy = "linkedPortfolio")
     @JsonIgnore
     private List<UserInsurance> userInsurances;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PlacingOrder> placingOrders = new ArrayList<>();
+
 }
 

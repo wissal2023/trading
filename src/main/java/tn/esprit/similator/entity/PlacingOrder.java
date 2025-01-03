@@ -1,5 +1,6 @@
 package tn.esprit.similator.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -39,5 +40,10 @@ public class PlacingOrder {
     @OneToMany(mappedBy = "placingOrder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     List<Transaction> transactions;
+
+    @ManyToOne
+    @JoinColumn(name = "portfolio_id", nullable = false) // Colonne pour la clé étrangère
+    @JsonBackReference
+    private Portfolio portfolio;
 
 }

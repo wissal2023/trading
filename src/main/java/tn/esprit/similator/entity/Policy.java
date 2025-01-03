@@ -1,12 +1,11 @@
 package tn.esprit.similator.entity;
 
+import java.util.Date;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,15 +25,26 @@ public class Policy {
 
     private String name;
     private String description;
-    private String premium; // Flat rate or percentage
+    private String prime; // Flat rate or percentage
     private String coverageDetails;
     private double maxCoverageAmount;
     private String conditions;
     private int durationInDays; // Validity duration in days
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    Date startDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    Date endDate;
 
-    @OneToMany(mappedBy = "policy")
+    @Enumerated(EnumType.STRING)
+    typePolicy typePolicy ;
+
+    @ManyToOne
     @JsonIgnore
-    private List<UserInsurance> userInsurances;
+    private UserInsurance userInsurance;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "portfolio_id")
+    private Portfolio portfolio;
 }
 

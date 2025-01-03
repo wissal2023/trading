@@ -7,6 +7,8 @@ import lombok.experimental.FieldDefaults;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Getter
 @Setter
@@ -28,10 +30,14 @@ public class Portfolio {
     Double totGainLoss; // Total gain/loss percentage
 
     @OneToOne(mappedBy = "portfolio")
+    @JsonIgnore
     User user;
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<Transaction> transactions;
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<Holding> holdings;
+    @OneToMany(mappedBy = "linkedPortfolio")
+    @JsonIgnore
+    private List<UserInsurance> userInsurances;
 }
 

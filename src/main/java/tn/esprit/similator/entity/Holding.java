@@ -6,6 +6,8 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Getter
 @Setter
@@ -26,5 +28,6 @@ public class Holding {
     Date acquisitionDate;// acquired date
 
     @ManyToOne
+    @JsonIgnore
     Portfolio portfolio;
 }
